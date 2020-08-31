@@ -16,7 +16,7 @@ void CVegaFemFactory::readFilePath4Directory(const std::string & vDirectoryName)
 	{
 		do
 		{
-			m_FileList.push_back(p.assign(vDirectoryName).append("\\").append(fileinfo.name));
+			m_FileList.push_back(p.assignz(vDirectoryName).append("\\").append(fileinfo.name));
 
 		} while (_findnext(hFile, &fileinfo) == 0);
 		_findclose(hFile);
