@@ -102,14 +102,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Common.vcxproj">
-      <Project>{dcf08742-1dd0-4a5b-80dc-9cfe26abc661}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RenderingProcess\RenderingProcess.vcxproj">
-      <Project>{96eb22fd-5b97-444e-81ba-2b5a60f6e0fe}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets" Condition="Exists('..\..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" />
