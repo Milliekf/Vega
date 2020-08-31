@@ -1,0 +1,121 @@
+resolutionX 256.
+objMeshname D:/GraduationProject/Vega/models/turtle/turtle.obj.
+signedField 1.
+mode 1.
+sigmaString 0.1
+Expansion ratio is: 1.5.
+sigma is: 0.1.
+Data output format is: IEEE single (32-bit) precision.
+UseCubeBox: 0
+********* Computing signed distance field (256 x 256 x 256) *************
+Tight bounding box:
+  [-3.36816 0.002707 -1.29097]
+  [3.36816 6.92758 1.91238]
+********* Computing unsigned distance field (256 x 256 x 256) *************
+Preparing to build the octree. Max triangle count per cell: 15 . Max depth: 10 .
+Checking if mesh is triangular... mesh was not triangular: triangulating... done
+Total number of triangles is: 3654
+Building the octree data structure...
+Computing the distance field...
+Corners of the bounding box are:
+  [-5.19366 -1.72851 -4.88295]
+  [5.19366 8.6588 5.50436]
+Grid sizes are: 0.0405754 0.0405754 0.0405754
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256
+Unsigned distance field successfully computed...
+Computing the isosurface using marching cubes. Iso-level: 0.100000.
+Finishing marching cubes...
+Removing interior components...
+Detected 55 groups in the isoMesh.
+*************** Computing PseudoNormals *****************
+Encountered and removed 0 faces with zero surface area.
+removing group 28 from group 0
+removing group 30 from group 0
+removing group 27 from group 0
+removing group 33 from group 0
+removing group 11 from group 0
+removing group 48 from group 0
+removing group 49 from group 0
+removing group 10 from group 0
+removing group 24 from group 0
+removing group 36 from group 0
+removing group 13 from group 0
+removing group 47 from group 0
+removing group 51 from group 0
+removing group 6 from group 0
+removing group 50 from group 0
+removing group 8 from group 0
+removing group 21 from group 0
+removing group 37 from group 0
+removing group 18 from group 0
+removing group 40 from group 0
+removing group 41 from group 0
+removing group 19 from group 0
+removing group 15 from group 0
+removing group 44 from group 0
+removing group 42 from group 0
+removing group 16 from group 0
+removing group 29 from group 0
+removing group 22 from group 0
+removing group 35 from group 0
+removing group 38 from group 0
+removing group 20 from group 0
+removing group 52 from group 0
+removing group 4 from group 0
+removing group 12 from group 0
+removing group 46 from group 0
+removing group 34 from group 0
+removing group 25 from group 0
+removing group 14 from group 0
+removing group 43 from group 0
+removing group 32 from group 0
+removing group 26 from group 0
+removing group 23 from group 0
+removing group 31 from group 0
+removing group 54 from group 0
+removing group 1 from group 0
+removing group 3 from group 0
+removing group 53 from group 0
+removing group 7 from group 0
+removing group 45 from group 0
+removing group 17 from group 0
+removing group 9 from group 0
+removing group 39 from group 0
+removing group 5 from group 0
+removing group 2 from group 0
+Removed 54 interior groups: 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
+********* Recomputing signed distance field (256 x 256 x 256) *************
+Applying offset -0.1 to the distance field. Resolution is 256 x 256 x 256.
+Number of distinct connected components: 1
+Checking if mesh has no boundary...
+Mesh has no boundary (i.e. is closed surface).
+Checking if input mesh is oriented consistently... yes.
+Preparing to build the octree. Max triangle count per cell: 15 . Max depth: 10 .
+Checking if mesh is triangular... yes
+Encountered and removed 0 faces with zero surface area.
+Total number of triangles is: 144776
+The model tight-fitting cube-shaped bounding box is:
+xmin: -3.56231 xmax: 3.56231
+ymin: -0.097293 ymax: 7.02732
+zmin: -3.25192 zmax: 3.8727
+Starting the octree creation algorithm...
+Octree creation completed successfully.
+computing the flood fill tag...
+Computing the distance field...
+Corners of the bounding box are:
+  [-5.19366 -1.72851 -4.88295]
+  [5.19366 8.6588 5.50436]
+Grid sizes are: 0.0405754 0.0405754 0.0405754
+0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255 256
+Signed distance field successfully computed...
+Applying offset 0.1 to the distance field. Resolution is 256 x 256 x 256.
+Computation completed. Performing sanity check...
+.................................................................................................................................................................................................................................................................
+Encountered 500 possible errors. Largest top 3 errors (or all errors if fewer):
+Distance field change too large. [107,159,133] to [108,160,133] Dist 1: 0.193955 Dist 2: 0.134345 Reported change in distance field: 0.0596103 Grid distance: 0.0573823 Relative error: 0.0388269
+Distance field change too large. [108,160,133] to [107,159,133] Dist 1: 0.134345 Dist 2: 0.193955 Reported change in distance field: 0.0596103 Grid distance: 0.0573823 Relative error: 0.0388269
+Distance field change too large. [149,159,133] to [148,160,133] Dist 1: 0.193955 Dist 2: 0.13454 Reported change in distance field: 0.0594148 Grid distance: 0.0573823 Relative error: 0.0354191
+Sanity check failed.
+Saving the distance field to D:/GraduationProject/Vega/models/turtle/new/turtle.dist .
+
+

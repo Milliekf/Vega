@@ -1,0 +1,5 @@
+以turtle为例
+使用cmd窗口，定位到turtle的目录下，该目录下有三个config，每个config文件使用的物理模型是不一样的
+此时选择运行质点弹簧物理模型，参考run_turtle_massspring文件，告知在当前路径下的cmd窗口输入：interactiveDeformableSimulator turtle_massspring.config
+即可运行
+
