@@ -3,7 +3,6 @@
 
 #include <glm/glm.hpp>
 #include <vector>
-#include <boost/serialization/vector.hpp>
 #include <algorithm>
 #include <numeric>
 #include <fstream>
@@ -17,9 +16,9 @@ namespace Common
 {
 	enum EFileFramesType
 	{
-		FourRelatedFiles,
+		OneRelatedFile,
 		TwoRelatedFiles,
-		OneRelatedFIle
+		FourRelatedFiles	
 	};
 	constexpr size_t NumOfBoundingBoxVertices = 8;
 	static inline glm::vec3 vec3_cast(const aiVector3D &vec3) { return glm::vec3(vec3.x, vec3.y, vec3.z); }
@@ -34,6 +33,8 @@ namespace Common
 	static bool InstanceTrees = true;
 
 	static int TreesNumber = 25;
+
+	static int MaxTimeStep = 60;
 
 	struct SVertex
 	{
@@ -145,6 +146,7 @@ namespace Common
 
 	const size_t NumOfAxis = 3;
 
+	//每一帧来Multi的组
 	struct SFileDataGroup
 	{
 		unsigned int GroupIndex;
@@ -155,9 +157,11 @@ namespace Common
 		}
 	};
 
+	//一个文件中的每一帧
 	struct SFileData
 	{
 		unsigned int FrameIndex;
+		std::vector<glm::vec3> BaseFileDeformations;
 		std::vector<SFileDataGroup> FileDeformation;
 		SFileData() = default;
 		SFileData(unsigned int vFrameIndex)
@@ -166,24 +170,33 @@ namespace Common
 		}
 	};
 
+	//每一个是一个文件
 	struct SFileFrames
 	{
 		std::string FileIndex;
-		bool isLoadDataSet;
+		std::string FilePath;
+		bool isLoadDataSet=false;
 		int Theta;
 		int Phi;
 		std::vector<int> ForceFluctuationSequence;
 		std::vector<SFileData> Frames;
 		SFileFrames() = default;
-		SFileFrames(std::string vIndex)
+		SFileFrames(std::string vIndex,std::string vFilePath)
 		{
 			FileIndex = vIndex;
+			FilePath = vFilePath;
 		}
 	};
 	struct SConnectedFemFiles
 	{
+		unsigned int ConnectedIndex;
 		EFileFramesType Type;
-		std::vector<SFileFrames> FemDataset;
+		std::vector<SFileFrames*> FemDataset;
+		SConnectedFemFiles() = default;
+		SConnectedFemFiles(unsigned int vConnectedIndex)
+		{
+			ConnectedIndex = vConnectedIndex;
+		}
 	};
 
 }

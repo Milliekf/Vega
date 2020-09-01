@@ -10,17 +10,19 @@
 #include "../RenderingProcess/Sence.h"
 #include "../RenderingProcess/Shader.h"
 #include "../Common/common.h"
+#include "ModelDeformationTransform.h"
 
 class CVegaFemFactory
 {
 public:
 
 	CVegaFemFactory() = default;
-	CVegaFemFactory(const std::string & vDirectoryName);
+	CVegaFemFactory(const std::string & vDirectoryName, const std::string & vMutilVerticesBaseFile);
 	~CVegaFemFactory() = default;
 
 	void readFilePath4Directory(const std::string & vDirectoryName);
-	void readFramesDeformationData( std::vector<Common::SFileFrames>& vSearchFrames);
+	void readFramesDeformationData( std::vector<Common::SFileFrames>& vSearchFrames, int vSearchConnectionIndex);
+	void getConnectedFemMutileDeformation(int vConnectionIndex, int vTimestep);
 	std::string getFileName(const std::string & vFileDirectory);
 	void setDeformationStateFromFileName();
 	std::vector<Common::SFileFrames> searchFileFrames(const int vTheta, const int vPhi, const std::vector<int> & vForceFluctuationSequence);
@@ -28,6 +30,10 @@ public:
 	std::vector<std::vector<glm::vec3>> objDeformation(std::pair<int, int> vForceDirection, std::vector<int> vForceFluctuationSequence);
 
 private:
+
+	void __InternalClassAddFilesData(std::string vFileIndex);
+	CModelDeformationTransform* m_ModelTransformStruct;
 	std::vector<std::string> m_FileList;
 	std::vector<Common::SFileFrames> m_FilesData;
+	std::vector<Common::SConnectedFemFiles> m_AllReallyLoadConnectedFem;
 };

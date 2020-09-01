@@ -143,32 +143,6 @@ void CSence::__changeObjMeshStruct2Charptr(int vOutputMaterials)
 	m_DataSize = strlen((char*)ss.str().c_str());
 }
 
-//void CSence::__changeVertexStruct(ObjMesh::Group * groupHandle)
-//{
-//	std::vector<Common::SVertex> Vertices;
-//	std::vector<unsigned int> Indices;
-//	std::vector<Common::STexture> Textures;
-//	
-//	for (unsigned int iVertex = 0; iVertex < m_Mesh->getNumVertices; iVertex++)
-//	{
-//		m_Mesh->getPosition(iVertex);
-//		
-//	}
-//	for (unsigned int iFace = 0; iFace < groupHandle->getNumFaces(); iFace++)
-//	{
-//		const ObjMesh::Face * faceHandle = groupHandle->getFaceHandle(iFace);
-//
-//		for (unsigned int iVertex = 0; iVertex < faceHandle->getNumVertices(); iVertex++)
-//		{
-//			const ObjMesh::Vertex * vertexHandle = faceHandle->getVertexHandle(iVertex);
-//			Vec3d v = m_Mesh->getPosition(*vertexHandle);
-//			int vertexPositionIndex = vertexHandle->getPositionIndex();
-//
-//			Indices.push_back(vertexPositionIndex);
-//		}
-//	}																	    
-//}
-
 //****************************************************************************************************
 //FUNCTION:
 void CSence::__loadModel(const std::string& vModelPath, bool vloadNormalizeModelAndFaceNormal)

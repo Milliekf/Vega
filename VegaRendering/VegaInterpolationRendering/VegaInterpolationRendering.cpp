@@ -56,12 +56,13 @@ float grasstime = 0.0f;
 int main()
 {
 	//预处理每棵树需要依靠的树的数据
-	//CVegaFemFactory vFem("D:\\GraduationProject\\Vega\\models\\8.10\\positions");
-	//std::pair<int, int> a(0, 0);
-	//std::vector<int> b{ 200, 200, 200 };
-	///*std::vector<std::vector<glm::vec3>> u = vFem.objDeformation(a, b);*/
-	//std::vector<Common::SFileFrames> vtemp=vFem.searchFileFrames(a.first,a.second, b);
-	//vFem.readFramesDeformationData(vtemp);
+	CVegaFemFactory vFem("D:\\GraduationProject\\Vega\\models\\8.10\\test","D://GraduationProject//Vega//models//8.10//surface.obj");
+	std::pair<int, int> a(0, 0);
+	std::vector<int> b{ 200, 200, 200 };
+	/*std::vector<std::vector<glm::vec3>> u = vFem.objDeformation(a, b);*/
+	std::vector<Common::SFileFrames> vtemp=vFem.searchFileFrames(a.first,a.second, b);
+	vFem.readFramesDeformationData(vtemp,0);
+	
 	// glfw: initialize and configure
 	// ------------------------------
 	GLFWwindow* Window = nullptr;
@@ -120,6 +121,7 @@ int main()
 		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 		ourShader.setMat4("model", model);
+		vFem.getConnectedFemMutileDeformation(0, 0);
 		//ourModel.draw(ourShader);
 		//ourModel.draw(ourShader, true, u);
 		glfwSwapBuffers(Window);

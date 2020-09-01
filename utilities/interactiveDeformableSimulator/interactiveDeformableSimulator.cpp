@@ -76,9 +76,9 @@ using namespace std;
 #endif
 
 
-#include "../../RenderingProcess/Shader.h"
-#include "../../RenderingProcess/Sence.h"
-#include "../../RenderingProcess/Mesh.h"
+#include "Shader.h"
+#include "Sence.h"
+#include "Mesh.h"
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include <GLFW/glfw3.h>
@@ -776,7 +776,7 @@ void idleFunction(void)
 	//////////////////////
 	ObjMesh * mesh = secondaryDeformableObjectRenderingMesh->GetMesh();
 	double * restPosition = secondaryDeformableObjectRenderingMesh->GetVertexRestPositions();
-	//mesh->saveToAscii("D:/GraduationProject/Vega/models/8.10/position/1.obj",1);
+	mesh->saveToAscii("D:/GraduationProject/Vega/models/8.10/position/1.obj",1);
 	CSence sence(mesh, restPosition);
 	std::vector<std::vector<glm::vec3>> data = sence.getGroupDeformationData();
 	if (strcmp(outputFilename, "__none") != 0)

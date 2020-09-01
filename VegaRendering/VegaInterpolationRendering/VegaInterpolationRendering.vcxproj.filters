@@ -21,5 +21,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="G:\2020\LearnOpenGL-master\LearnOpenGL-master\src\3.model_loading\1.model_loading\1.model_loading.fs">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="G:\2020\LearnOpenGL-master\LearnOpenGL-master\src\3.model_loading\1.model_loading\1.model_loading.vs">
+      <Filter>源文件</Filter>
+    </None>
   </ItemGroup>
 </Project>

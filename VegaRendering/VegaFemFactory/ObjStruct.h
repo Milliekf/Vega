@@ -1,7 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <vector>
-#include <boost/serialization/vector.hpp>
 #include <algorithm>
 #include <boost/tokenizer.hpp>
 #include <boost/format.hpp>
@@ -11,9 +10,9 @@ namespace BaseObjConstruct
 {
 	struct SFace
 	{
-		glm::vec3 VertexIndex;
+		std::vector<int> VertexIndex;
 		SFace() = default;
-		SFace(glm::vec3 vVertexIndex)
+		SFace(std::vector<int>& vVertexIndex)
 		{
 			VertexIndex = vVertexIndex;
 		}

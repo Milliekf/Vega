@@ -39,7 +39,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -136,8 +136,9 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\..\..\vc_packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets" Condition="Exists('..\..\..\..\vc_packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets')" />
     <Import Project="..\..\..\..\vc_packages\Assimp.3.0.0\build\native\Assimp.targets" Condition="Exists('..\..\..\..\vc_packages\Assimp.3.0.0\build\native\Assimp.targets')" />
-    <Import Project="..\..\..\..\vc_packages\boost.1.72.0.0\build\boost.targets" Condition="Exists('..\..\..\..\vc_packages\boost.1.72.0.0\build\boost.targets')" />
     <Import Project="..\..\..\..\vc_packages\glm.0.9.9.800\build\native\glm.targets" Condition="Exists('..\..\..\..\vc_packages\glm.0.9.9.800\build\native\glm.targets')" />
+    <Import Project="..\..\..\..\vc_packages\boost.1.70.0.0\build\boost.targets" Condition="Exists('..\..\..\..\vc_packages\boost.1.70.0.0\build\boost.targets')" />
+    <Import Project="..\..\..\..\vc_packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets" Condition="Exists('..\..\..\..\vc_packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -145,7 +146,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\..\vc_packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\vc_packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets'))" />
     <Error Condition="!Exists('..\..\..\..\vc_packages\Assimp.3.0.0\build\native\Assimp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\vc_packages\Assimp.3.0.0\build\native\Assimp.targets'))" />
-    <Error Condition="!Exists('..\..\..\..\vc_packages\boost.1.72.0.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\vc_packages\boost.1.72.0.0\build\boost.targets'))" />
     <Error Condition="!Exists('..\..\..\..\vc_packages\glm.0.9.9.800\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\vc_packages\glm.0.9.9.800\build\native\glm.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\vc_packages\boost.1.70.0.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\vc_packages\boost.1.70.0.0\build\boost.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\vc_packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\vc_packages\boost_serialization-vc141.1.70.0.0\build\boost_serialization-vc141.targets'))" />
   </Target>
 </Project>
