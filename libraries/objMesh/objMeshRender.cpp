@@ -373,11 +373,13 @@ void ObjMeshRender::render(int geometryMode, int renderMode, int renderSingleGro
       //printf("amb: %G %G %G\n", Ka[0], Ka[1], Ka[2]);
       //printf("dif: %G %G %G\n", Kd[0], Kd[1], Kd[2]);
       //printf("spe: %G %G %G\n", Ks[0], Ks[1], Ks[2]);
-
+	  int count = 0;
       for(unsigned int iFace = 0; iFace < groupHandle->getNumFaces(); iFace++)
       {
         if (hasHidden && hiddenIt->second.find(iFace) != hiddenIt->second.end()) continue;
         const ObjMesh::Face * faceHandle = groupHandle->getFaceHandle(iFace);
+
+		
 
         glBegin(GL_POLYGON);
         if (renderMode & OBJMESHRENDER_FLAT)
@@ -399,7 +401,6 @@ void ObjMeshRender::render(int geometryMode, int renderMode, int renderSingleGro
           else
             faceColor = customColorsFaces[faceCount+iFace];
         }
-
         for(unsigned int iVertex = 0; iVertex < faceHandle->getNumVertices(); iVertex++)
         {
           const ObjMesh::Vertex * vertexHandle = faceHandle->getVertexHandle(iVertex);
@@ -444,13 +445,15 @@ void ObjMeshRender::render(int geometryMode, int renderMode, int renderSingleGro
           if (renderMode & OBJMESHRENDER_CUSTOMCOLORFACES)
             glColor3f(faceColor[0], faceColor[1], faceColor[2]);
 
+		  
           // set position
           glVertex3d(v[0],v[1],v[2]);
+		  count = count + 1;
         }
         glEnd();
       }
       faceCount += groupHandle->getNumFaces();
-
+	  int b = count;
       if ((renderMode & OBJMESHRENDER_TEXTURE))
         glDisable(GL_TEXTURE_2D);
     }

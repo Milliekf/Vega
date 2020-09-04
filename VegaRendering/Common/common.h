@@ -18,7 +18,7 @@ namespace Common
 	{
 		OneRelatedFile,
 		TwoRelatedFiles,
-		FourRelatedFiles	
+		FourRelatedFiles
 	};
 	constexpr size_t NumOfBoundingBoxVertices = 8;
 	static inline glm::vec3 vec3_cast(const aiVector3D &vec3) { return glm::vec3(vec3.x, vec3.y, vec3.z); }
@@ -155,6 +155,9 @@ namespace Common
 		{
 			GroupIndex = vGroupIndex;
 		}
+		void clear() {
+			PositionsDeformation.clear();
+		}
 	};
 
 	//一个文件中的每一帧
@@ -175,13 +178,13 @@ namespace Common
 	{
 		std::string FileIndex;
 		std::string FilePath;
-		bool isLoadDataSet=false;
+		bool isLoadDataSet = false;
 		int Theta;
 		int Phi;
 		std::vector<int> ForceFluctuationSequence;
 		std::vector<SFileData> Frames;
 		SFileFrames() = default;
-		SFileFrames(std::string vIndex,std::string vFilePath)
+		SFileFrames(std::string vIndex, std::string vFilePath)
 		{
 			FileIndex = vIndex;
 			FilePath = vFilePath;

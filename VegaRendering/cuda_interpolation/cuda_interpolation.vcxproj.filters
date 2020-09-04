@@ -15,13 +15,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="VegaInterpolationRendering.cpp">
+    <CudaCompile Include="cuda_main.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="myVBO.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Tree.frag" />
-    <None Include="Tree.vert" />
   </ItemGroup>
 </Project>

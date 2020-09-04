@@ -31,7 +31,7 @@ public:
 	void SetParaMesh();
 	void senceDraw(const CShader& vShader, std::vector<std::vector<glm::vec3>> deformationFrames);
 	void setFileDirectiory(std::string vFileDirectory) { m_FileDirectory = vFileDirectory; }
-	void draw(const CShader& vShader, bool instance, std::vector<std::vector<glm::vec3>> deformationFrames);
+	void draw(const CShader& vShader, bool instance, std::vector<Common::SFileDataGroup> deformationFrames);
 	CTreeInstanceMesh addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames);
 	/*std::vector<CMesh> getMeshes() const { return m_Meshes; }
 	void setFileDirectiory(std::string vFileDirectory) { m_FileDirectory = vFileDirectory; }

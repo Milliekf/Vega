@@ -55,14 +55,23 @@ float grasstime = 0.0f;
 
 int main()
 {
-	//预处理每棵树需要依靠的树的数据
-	CVegaFemFactory vFem("D:\\GraduationProject\\Vega\\models\\8.10\\test","D://GraduationProject//Vega//models//8.10//surface.obj");
-	std::pair<int, int> a(0, 0);
-	std::vector<int> b{ 200, 200, 200 };
+	CVegaFemFactory vFem("D:\\GraduationProject\\Vega\\models\\8.10\\test", "D://GraduationProject//Vega//models//8.10//1.obj");
+	std::vector<int> b{ 500, 500, 500 };
+	std::vector<std::pair<int, int>> angle;
+	int numbercounter = 3;
+	for (int i = 0; i < numbercounter; i++)
+	{
+		angle.push_back(std::make_pair(0, i * 30));
+	}
 	/*std::vector<std::vector<glm::vec3>> u = vFem.objDeformation(a, b);*/
-	std::vector<Common::SFileFrames> vtemp=vFem.searchFileFrames(a.first,a.second, b);
+	for (int i = 0; i < numbercounter; i++)
+	{
+		std::vector<Common::SFileFrames> vtemp = vFem.searchFileFrames(angle[i].first, angle[i].second, b);
+		vFem.readFramesDeformationData(vtemp, i);
+	}
+	/*std::vector<Common::SFileFrames> vtemp=vFem.searchFileFrames(a.first,a.second, b);
 	vFem.readFramesDeformationData(vtemp,0);
-	
+	_CrtDumpMemoryLeaks();*/
 	// glfw: initialize and configure
 	// ------------------------------
 	GLFWwindow* Window = nullptr;
@@ -79,14 +88,15 @@ int main()
 	// build and compile shaders
 	// -------------------------
 
-	CShader ourShader("../Shader/Nanosuit.vert", "../Shader/Nanosuit.frag");
+	CShader ourShader("D:\\GraduationProject\\Vega\\VegaRendering\\VegaInterpolationRendering\\Tree.vert", "D:\\GraduationProject\\Vega\\VegaRendering\\VegaInterpolationRendering\\Tree.frag");
 
 	// load models
 	// -----------
 	//CModel ourModel("../Model/xiangri/file.obj");
 
-	CSence ourModel("D://GraduationProject//Vega//models//8.10//surface.obj");
-
+	CSence ourModel("D:/GraduationProject/Vega/models/8.10/1.obj");
+	int i = 0;
+	int frame = 0, time = 0, timebase = 0;
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(Window))
@@ -96,6 +106,7 @@ int main()
 		float currentFrame = glfwGetTime();
 		DeltaTime = (currentFrame - LastFrame);
 		LastFrame = currentFrame;
+		std::cout << "间隔时间" << DeltaTime << std::endl;
 		/*outputfile << deltaTime << endl;*/
 		// input
 		// -----
@@ -103,8 +114,7 @@ int main()
 
 		// render 
 		// ------
-		glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
-		//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// don't forget to enable shader before setting uniforms
@@ -118,14 +128,33 @@ int main()
 
 		// render the loaded model
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::translate(model, glm::vec3(1.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
 		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 		ourShader.setMat4("model", model);
-		vFem.getConnectedFemMutileDeformation(0, 0);
+		/*std::vector<Common::SFileDataGroup> temp;
+		ourModel.draw(ourShader, false, temp);*/
+
+		if (i > 59)
+		{
+			i = i % 60;
+		}
+		for (int j = 0; j < numbercounter; j++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(0.2f*j, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+			ourShader.setMat4("model", model);
+			std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
+			vFem.cleanSFileDataGroup(j, i);
+			ourModel.draw(ourShader, true, temp);
+		}
+		i++;
+
 		//ourModel.draw(ourShader);
 		//ourModel.draw(ourShader, true, u);
 		glfwSwapBuffers(Window);
 		glfwPollEvents();
+
 	}
 	//outputfile.close();
 	// glfw: terminate, clearing all previously allocated GLFW resources.
@@ -221,3 +250,4 @@ void framebufferSizeCallback(GLFWwindow* vWindow, int vWidth, int vHeight)
 {
 	glViewport(0, 0, vWidth, vHeight);
 }
+

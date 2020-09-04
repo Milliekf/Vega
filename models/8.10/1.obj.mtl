@@ -4,6 +4,7 @@ Ka 0.1444 0.2 0.0619
 Kd 0.3569 0.4941 0.1529
 Ks 0 0 0
 Ns 0
+map_Kd palm_leaf_07_color.jpg
 
 newmtl dectree1bark_01
 illum 4
@@ -11,11 +12,13 @@ Ka 0.2 0.167 0.1028
 Kd 0.4275 0.3569 0.2196
 Ks 0 0 0
 Ns 0
+map_Kd palm_leaf_01_spec.jpg
 
 newmtl default
 illum 4
 Ka 0.2 0.2 0.2
 Kd 0.6 0.6 0.6
 Ks 0 0 0
-Ns 507.812
+Ns 507.813
+map_Kd palm_leaf_07_color.jpg
 

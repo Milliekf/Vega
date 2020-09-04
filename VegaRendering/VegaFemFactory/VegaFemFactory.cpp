@@ -1,10 +1,10 @@
 #include "VegaFemFactory.h"
 
-CVegaFemFactory::CVegaFemFactory(const std::string & vDirectoryName,const std::string & vMutilVerticesBaseFile)
+CVegaFemFactory::CVegaFemFactory(const std::string & vDirectoryName, const std::string & vMutilVerticesBaseFile)
 {
 	readFilePath4Directory(vDirectoryName);
 	setDeformationStateFromFileName();
-	m_ModelTransformStruct=new CModelDeformationTransform(vMutilVerticesBaseFile);
+	m_ModelTransformStruct = new CModelDeformationTransform(vMutilVerticesBaseFile);
 }
 
 //将文件夹下所有文件创建多个SFileFrames(但并未加载内容)
@@ -36,15 +36,16 @@ void CVegaFemFactory::readFilePath4Directory(const std::string & vDirectoryName)
 			std::cout << "Error: could not open vertex file" << m_FileList[i] << std::endl;
 		}
 		int Frameindex = 0;
-		m_FilesData.push_back(Common::SFileFrames(getFileName(m_FileList[i]),m_FileList[i]));
+		m_FilesData.push_back(Common::SFileFrames(getFileName(m_FileList[i]), m_FileList[i]));
 		positionFile.close();
 	}
+	std::cout << "Load Multiple SFileFrames File:" << m_FileList.size() << std::endl;
 
 }
 
 
 //对于搜索出的SFileFrames加载数据
-void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>& vSearchFrames,int vSearchConnectionIndex)
+void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>& vSearchFrames, int vSearchConnectionIndex)
 {
 	Common::SConnectedFemFiles tempConnectedFile(vSearchConnectionIndex);
 	int counterConnectFileNumber = 0;
@@ -71,23 +72,27 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 					std::istringstream sin(lineString);
 					std::string str;
 					sin >> str;//Position%04d后面有空格
-					sin.clear();
+
+					//if (timeStepCount == 5) break;
+
 					if (str == s)
 					{
-						std::string vertexsize;
-						getline(positionFile, vertexsize);
-						Common::SFileData tempFileData(Frameindex);
+						std::string VertexSizeStr;
+						getline(positionFile, VertexSizeStr);
+						int VertexSize = atoi(VertexSizeStr.c_str());
+
 						getline(positionFile, lineString);
-						std::vector<double>frameArray;
 						std::istringstream dataset(lineString);
-						for (int j = 0; j < atoi(vertexsize.c_str()); j++)
+
+						Common::SFileData tempFileData(Frameindex);
+						for (int j = 0; j < VertexSize; j++)
 						{
 							dataset >> position[0] >> position[1] >> position[2];
 							tempFileData.BaseFileDeformations.push_back(glm::vec3(position[0], position[1], position[2]));
 						}
 						timeStepCount++;
 						Frameindex++;
-						m_FilesData[fileIndex].Frames.push_back(tempFileData);										
+						m_FilesData[fileIndex].Frames.push_back(tempFileData);
 					}
 				}
 				m_FilesData[fileIndex].isLoadDataSet = true;
@@ -101,6 +106,8 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 	else if (counterConnectFileNumber == 4) tempConnectedFile.Type = Common::EFileFramesType::FourRelatedFiles;
 
 	m_AllReallyLoadConnectedFem.push_back(tempConnectedFile);
+
+	std::cout << "Finish Load Search FileData To ConnectedFileFrames" << std::endl;
 	//for (auto searchindex = 0; searchindex < vSearchFrames.size(); searchindex++)
 	//{
 	//	for (auto fileIndex = 0; fileIndex < m_FileList.size(); fileIndex++)
@@ -179,7 +186,8 @@ std::string CVegaFemFactory::getFileName(const std::string & vFileDirectory)
 }
 
 //将模型的原始形变数据扩大。
-void CVegaFemFactory::getConnectedFemMutileDeformation(int vConnectionIndex, int vTimestep)
+//返回值用新的变量是否可以用引用，感觉不行，插值出的不能再SFileData中找到。
+std::vector<Common::SFileDataGroup> CVegaFemFactory::getConnectedFemMutileDeformation(int vConnectionIndex, int vTimestep)
 {
 	//搜索所有已经存储的相关Connection项
 	for (int connectIndex = 0; connectIndex < m_AllReallyLoadConnectedFem.size(); connectIndex++)
@@ -188,17 +196,35 @@ void CVegaFemFactory::getConnectedFemMutileDeformation(int vConnectionIndex, int
 		{
 			if (m_AllReallyLoadConnectedFem[connectIndex].Type == Common::EFileFramesType::OneRelatedFile)
 			{
-				for (int time = 0; time < Common::MaxTimeStep; time++)
+				for (int time = 0; time < (m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames.size(); time++)
 				{
-					if ((m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames[time].FrameIndex == time)
+					if ((m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames[time].FrameIndex == vTimestep)
 					{
 						//返回模型的增量
 						m_ModelTransformStruct->ConvertVertex2mutileVerteices((m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames[time]);
 
+						return (m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames[time].FileDeformation;
 
 					}
-					
-				}			
+				}
+				std::cout << "Finish Load Multile Vertex" << std::endl;
+			}
+		}
+	}
+}
+
+void CVegaFemFactory::cleanSFileDataGroup(int vConnectionIndex, int vTimestep)
+{
+	for (int connectIndex = 0; connectIndex < m_AllReallyLoadConnectedFem.size(); connectIndex++)
+	{
+		if (vConnectionIndex == m_AllReallyLoadConnectedFem[connectIndex].ConnectedIndex)
+		{
+			for (int time = 0; time < (m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames.size(); time++)
+			{
+				if ((m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames[time].FrameIndex == vTimestep)
+				{
+					(m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames[time].FileDeformation.clear();
+				}
 			}
 		}
 	}

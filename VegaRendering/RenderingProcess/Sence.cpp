@@ -7,7 +7,7 @@ CSence::CSence(const CMesh& vMesh)
 
 //****************************************************************************************************
 //FUNCTION:
-void CSence::draw(const CShader& vShader, bool instance, std::vector<std::vector<glm::vec3>> deformationFrames)
+void CSence::draw(const CShader& vShader, bool instance, std::vector<Common::SFileDataGroup> deformationFrames)
 {
 	if (instance == false)
 	{
@@ -18,12 +18,13 @@ void CSence::draw(const CShader& vShader, bool instance, std::vector<std::vector
 	}
 	else
 	{
-		for (int i = 0; i < 2; i++)
-			for (auto& Mesh : m_Meshes)
-			{
-				CTreeInstanceMesh tempMesh = addDeformationData(Mesh, deformationFrames[i]);
-				tempMesh.draw(vShader);
-			}
+		int i = 0;
+		for (auto& Mesh : m_Meshes)
+		{
+			CTreeInstanceMesh tempMesh = addDeformationData(Mesh, deformationFrames[i].PositionsDeformation);
+			tempMesh.draw(vShader);
+			i++;
+		}
 	}
 }
 //****************************************************************************************************
@@ -188,12 +189,13 @@ void CSence::__processNode(const aiNode* vNode, const aiScene* vScene,bool vSave
 		/*auto temp = __processMesh(Mesh, vScene);
 		m_Meshes.push_back(temp);*/
 		if(vSaveDeformationOrLoadData==false)
-		m_Meshes.push_back(__processMesh(Mesh, vScene));
+			m_Meshes.push_back(__processMesh(Mesh, vScene));
 		else
 		{
 			__processSaveDeformation(Mesh, vScene);
 		}
 	}
+	//group的个数
 	for (unsigned int i = 0; i < vNode->mNumChildren; i++)
 	{
 		__processNode(vNode->mChildren[i], vScene, vSaveDeformationOrLoadData);
@@ -201,7 +203,7 @@ void CSence::__processNode(const aiNode* vNode, const aiScene* vScene,bool vSave
 }
 
 //****************************************************************************************************
-//FUNCTION:
+//FUNCTION:针对每一个group进行处理
 CMesh CSence::__processMesh(const aiMesh* vMesh, const aiScene* vScene)
 {
 	std::vector<Common::SVertex> Vertices;
