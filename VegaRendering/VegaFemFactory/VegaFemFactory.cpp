@@ -2,12 +2,15 @@
 
 CVegaFemFactory::CVegaFemFactory(const std::string & vDirectoryName, const std::string & vMutilVerticesBaseFile)
 {
+	//m_FilesData中每个对象的文件名和句对路径加上
 	readFilePath4Directory(vDirectoryName);
+	//根据上面解析的文件名将m_FilesData每个对象的角度和波动序列加上
 	setDeformationStateFromFileName();
+	//可以看作是一个obj的model对象，有mesh集合，以及group组集合
 	m_ModelTransformStruct = new CModelDeformationTransform(vMutilVerticesBaseFile);
 }
 
-//将文件夹下所有文件创建多个SFileFrames(但并未加载内容)
+//将文件夹下所有文件创建多个SFileFrames文件对象，但并未加载数据，只是将文件对应的名字和绝对路径加上
 void CVegaFemFactory::readFilePath4Directory(const std::string & vDirectoryName)
 {
 	intptr_t  hFile = 0;
@@ -17,29 +20,18 @@ void CVegaFemFactory::readFilePath4Directory(const std::string & vDirectoryName)
 	{
 		do
 		{
-			m_FileList.push_back(p.assign(vDirectoryName).append("\\").append(fileinfo.name));
+			m_FilePathList.push_back(p.assign(vDirectoryName).append("\\").append(fileinfo.name));
 
 		} while (_findnext(hFile, &fileinfo) == 0);
 		_findclose(hFile);
 	}
-	assert(m_FileList.size() > 0);
+	assert(m_FilePathList.size() > 0);
 
-	for (auto i = 0; i < m_FileList.size(); i++)
+	for (auto i = 0; i < m_FilePathList.size(); i++)
 	{
-		int timeStepCount = 0;
-		std::ifstream positionFile(m_FileList[i]);
-		std::string lineString;
-		char s[4096];
-		double position[3];
-		if (!positionFile.is_open())
-		{
-			std::cout << "Error: could not open vertex file" << m_FileList[i] << std::endl;
-		}
-		int Frameindex = 0;
-		m_FilesData.push_back(Common::SFileFrames(getFileName(m_FileList[i]), m_FileList[i]));
-		positionFile.close();
+		m_FilesData.push_back(Common::SFileFrames(getFileName(m_FilePathList[i]), m_FilePathList[i]));
 	}
-	std::cout << "Load Multiple SFileFrames File:" << m_FileList.size() << std::endl;
+	std::cout << "Load Multiple SFileFrames File:" << m_FilePathList.size() << std::endl;
 
 }
 
@@ -51,9 +43,10 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 	int counterConnectFileNumber = 0;
 	for (auto searchindex = 0; searchindex < vSearchFrames.size(); searchindex++)
 	{
+		//for循环文件的数量
 		for (auto fileIndex = 0; fileIndex < m_FilesData.size(); fileIndex++)
 		{
-			if (vSearchFrames[searchindex].FileIndex == m_FilesData[fileIndex].FileIndex)
+			if (vSearchFrames[searchindex].FileName == m_FilesData[fileIndex].FileName)
 			{
 				int timeStepCount = 1;
 				std::ifstream positionFile(m_FilesData[fileIndex].FilePath);
@@ -72,7 +65,7 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 					std::istringstream sin(lineString);
 					std::string str;
 					sin >> str;//Position%04d后面有空格
-
+					//std::cout << s << std::endl;
 					//if (timeStepCount == 5) break;
 
 					if (str == s)
@@ -153,7 +146,7 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 	//			}
 }
 
-//对于已经创建的多个SFileFrames对象中给与FileIndex 以及其他标识符
+//对于已经创建的多个SFileFrames对象，根据每个对象的文件名解析出其对应的两个角度以及力的波动序列，进行对象的填充，此时还是没有读入每帧的位移数据
 void CVegaFemFactory::setDeformationStateFromFileName()
 {
 	int thetaPos;
@@ -162,13 +155,15 @@ void CVegaFemFactory::setDeformationStateFromFileName()
 	for (auto i = 0; i < m_FilesData.size(); i++)
 	{
 		std::vector<std::string> ForceSequence;
-		thetaPos = m_FilesData[i].FileIndex.find("the");
-		phiPos = m_FilesData[i].FileIndex.find("phi");
-		forcePos = m_FilesData[i].FileIndex.find("force");
-		m_FilesData[i].Theta = std::stoi(m_FilesData[i].FileIndex.substr(thetaPos + 3, phiPos - thetaPos - 3));
-		m_FilesData[i].Phi = std::stoi(m_FilesData[i].FileIndex.substr(phiPos + 3, forcePos - phiPos - 3));
-		std::string tempsequence = m_FilesData[i].FileIndex.substr(forcePos + 5);
-		boost::split(ForceSequence, m_FilesData[i].FileIndex.substr(forcePos + 5), boost::is_any_of(","), boost::token_compress_off);
+		thetaPos = m_FilesData[i].FileName.find("the");
+		phiPos = m_FilesData[i].FileName.find("phi");
+		forcePos = m_FilesData[i].FileName.find("force");
+		m_FilesData[i].Theta = std::stoi(m_FilesData[i].FileName.substr(thetaPos + 3, phiPos - thetaPos - 3));
+		m_FilesData[i].Phi = std::stoi(m_FilesData[i].FileName.substr(phiPos + 3, forcePos - phiPos - 3));
+		//std::string tempsequence="500,500,500"
+		//std::string tempsequence = m_FilesData[i].FileIndex.substr(forcePos + 5);
+		//std::vector<std::string> ForceSequence={500,500,500}
+		boost::split(ForceSequence, m_FilesData[i].FileName.substr(forcePos + 5), boost::is_any_of(","), boost::token_compress_off);
 		std::vector<std::string>::iterator it;
 		for (it = ForceSequence.begin(); it != ForceSequence.end(); ++it)
 		{

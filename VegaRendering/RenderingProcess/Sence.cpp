@@ -19,7 +19,7 @@ void CSence::draw(const CShader& vShader, bool instance, std::vector<Common::SFi
 	else
 	{
 		int i = 0;
-		for (auto& Mesh : m_Meshes)
+		for (auto& Mesh : m_Meshes)//一棵树的所有mesh的绘制
 		{
 			CTreeInstanceMesh tempMesh = addDeformationData(Mesh, deformationFrames[i].PositionsDeformation);
 			tempMesh.draw(vShader);

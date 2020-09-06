@@ -16,6 +16,7 @@ public:
 	~CTreeInstanceMesh() = default;
 
 	void RandomRotation();
+	void setDeformation(const std::vector<glm::vec3> vDeformationOfFrame) { m_Deformation = vDeformationOfFrame; }
 	void __setupMesh();
 	void draw(const CShader& vShader) const;
 

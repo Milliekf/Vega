@@ -7,6 +7,7 @@
 #include "ObjStruct.h"
 #include "../Common/common.h"
 
+//这个类也能近似的看成一个model
 class CModelDeformationTransform
 {
 public:
@@ -19,7 +20,10 @@ public:
 private:
 	void __VertexFaceRelated();
 
+	//obj模型中的mesh的集合
 	ObjMesh *m_BaseFileMesh;
+	//obj总顶点数
 	int m_VerticesNumber;
+	//一系列的group的集合
 	std::vector<BaseObjConstruct::SGroup> m_Groups;
 };

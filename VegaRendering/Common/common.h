@@ -176,7 +176,9 @@ namespace Common
 	//每一个是一个文件
 	struct SFileFrames
 	{
-		std::string FileIndex;
+		//文件的名字
+		std::string FileName;
+		//文件的绝对路径
 		std::string FilePath;
 		bool isLoadDataSet = false;
 		int Theta;
@@ -186,7 +188,7 @@ namespace Common
 		SFileFrames() = default;
 		SFileFrames(std::string vIndex, std::string vFilePath)
 		{
-			FileIndex = vIndex;
+			FileName = vIndex;
 			FilePath = vFilePath;
 		}
 	};

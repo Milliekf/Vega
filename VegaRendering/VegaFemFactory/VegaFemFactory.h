@@ -23,6 +23,7 @@ public:
 	void readFilePath4Directory(const std::string & vDirectoryName);
 	void readFramesDeformationData(std::vector<Common::SFileFrames>& vSearchFrames, int vSearchConnectionIndex);
 	std::vector<Common::SFileDataGroup> getConnectedFemMutileDeformation(int vConnectionIndex, int vTimestep);
+	//根据文件的绝对路径取文件名字,如：positionthe0phi0force500,500,500
 	std::string getFileName(const std::string & vFileDirectory);
 	void setDeformationStateFromFileName();
 	std::vector<Common::SFileFrames> searchFileFrames(const int vTheta, const int vPhi, const std::vector<int> & vForceFluctuationSequence);
@@ -33,8 +34,11 @@ public:
 private:
 
 	void __InternalClassAddFilesData(std::string vFileIndex);
+	//可以看作是一个obj的model对象，有mesh集合，以及group组集合
 	CModelDeformationTransform* m_ModelTransformStruct;
-	std::vector<std::string> m_FileList;
+	//路径下面的每个文件的绝对路径集合，如：D:\GraduationProject\Vega\models\8.10\test\positionthe0phi0force500,500,500.txt
+	std::vector<std::string> m_FilePathList;
+	//形变文件的集合
 	std::vector<Common::SFileFrames> m_FilesData;
 	std::vector<Common::SConnectedFemFiles> m_AllReallyLoadConnectedFem;
 };

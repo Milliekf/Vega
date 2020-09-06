@@ -3,22 +3,28 @@
 
 CModelDeformationTransform::CModelDeformationTransform(const std::string & vFileName)
 {
+	//定义一个改良版的model，该model可以直接读取obj模型
 	SceneObjectDeformable *m_BaseFileStruct = new SceneObjectDeformable(vFileName.c_str());
+	//再将读取的mesh返回到这个本类的model的mesh
 	m_BaseFileMesh = m_BaseFileStruct->GetMesh();
 	__VertexFaceRelated();
 }
 
+//对m_Groups中的数据进行填充
 void CModelDeformationTransform::__VertexFaceRelated()
 {
 	m_VerticesNumber = m_BaseFileMesh->getNumVertices();
+	//循环obj模型中的总group数量
 	for (unsigned int i = 0; i < m_BaseFileMesh->getNumGroups(); i++)
 	{
 		m_Groups.push_back(BaseObjConstruct::SGroup(m_BaseFileMesh->getGroup(i).getName(), m_BaseFileMesh->getGroup(i).getNumFaces()));
 		std::vector<int> tempVertexIndex;
+		//循环每个group中每个face的数量
 		for (unsigned int iFace = 0; iFace < m_BaseFileMesh->getGroup(i).getNumFaces(); iFace++)
 		{
 			ObjMesh::Face face = m_BaseFileMesh->getGroup(i).getFace(iFace);
 
+			//循环每个face中每个顶点的个数，一个face三个顶点
 			for (int j = 0; j < 3; j++)
 			{
 				tempVertexIndex.push_back(face.getVertex(j).getPositionIndex());
