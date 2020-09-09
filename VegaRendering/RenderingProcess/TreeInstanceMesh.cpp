@@ -1,49 +1,68 @@
 #include "TreeInstanceMesh.h"
 
-CTreeInstanceMesh::CTreeInstanceMesh(CMesh & vmesh, const std::vector<glm::vec3> deformationFrames)
+CTreeInstanceMesh::CTreeInstanceMesh(CSence vModel, const Common::SFileFrames& vFileFrames)
 {
-	m_Mesh = vmesh;
-	m_Deformation = deformationFrames;
+	m_Model = vModel;
+	m_FileFrames = vFileFrames;
+	for (int i = 0; i < vFileFrames.Frames.size(); i++)
+	{
+		Common::SFileData frame = vFileFrames.Frames[i];
+		m_Deformations.push_back(frame.BaseFileDeformations);
+	}
+	m_GroupsIndex = vModel.getGroupsIndex();
 	__setupMesh();
 }
 
-void CTreeInstanceMesh::draw(const CShader& vShader) const
+//void CTreeInstanceMesh::draw(const CShader& vShader) const
+//{
+//	// bind appropriate textures
+//	unsigned int diffuseNr = 1;
+//	unsigned int specularNr = 1;
+//	unsigned int normalNr = 1;
+//	unsigned int heightNr = 1;
+//	for (unsigned int i = 0; i < m_Mesh.getTextures().size(); i++)
+//	{
+//		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+//		// retrieve texture number (the N in diffuse_textureN)
+//		std::string Number;
+//		std::string Name = m_Mesh.getTextures()[i].type;
+//		if (Name == "texture_diffuse")
+//			Number = std::to_string(diffuseNr++);
+//		else if (Name == "texture_specular")
+//			Number = std::to_string(specularNr++); // transfer unsigned int to stream
+//		else if (Name == "texture_normal")
+//			Number = std::to_string(normalNr++); // transfer unsigned int to stream
+//		else if (Name == "texture_height")
+//			Number = std::to_string(heightNr++); // transfer unsigned int to stream
+//
+//												 // now set the sampler to the correct texture unit
+//
+//		auto temp = glGetUniformLocation(vShader.getID(), (Name + Number).c_str());
+//		glUniform1i(-1, i);
+//		// and finally bind the texture
+//		glBindTexture(GL_TEXTURE_2D, m_Mesh.getTextures()[i].id);
+//	}
+//	// draw mesh
+//	glBindVertexArray(m_Mesh.getVAO());
+//	glDrawElements(GL_TRIANGLES, m_Mesh.getIndices().size(), GL_UNSIGNED_INT, 0);
+//	//glDrawElementsInstanced(GL_TRIANGLES, m_Mesh.getIndices().size(), GL_UNSIGNED_INT, 0, Common::TreesNumber);
+//	glBindVertexArray(0);
+//
+//	// always good practice to set everything back to defaults once configured.
+//	glActiveTexture(GL_TEXTURE0);
+//}
+
+int CTreeInstanceMesh::getSizeOfGroupsIndex()
 {
-	// bind appropriate textures
-	unsigned int diffuseNr = 1;
-	unsigned int specularNr = 1;
-	unsigned int normalNr = 1;
-	unsigned int heightNr = 1;
-	for (unsigned int i = 0; i < m_Mesh.getTextures().size(); i++)
+	int tempCount = 0;
+	for (int i = 0; i < m_GroupsIndex.size(); i++)
 	{
-		glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-		// retrieve texture number (the N in diffuse_textureN)
-		std::string Number;
-		std::string Name = m_Mesh.getTextures()[i].type;
-		if (Name == "texture_diffuse")
-			Number = std::to_string(diffuseNr++);
-		else if (Name == "texture_specular")
-			Number = std::to_string(specularNr++); // transfer unsigned int to stream
-		else if (Name == "texture_normal")
-			Number = std::to_string(normalNr++); // transfer unsigned int to stream
-		else if (Name == "texture_height")
-			Number = std::to_string(heightNr++); // transfer unsigned int to stream
-
-												 // now set the sampler to the correct texture unit
-
-		auto temp = glGetUniformLocation(vShader.getID(), (Name + Number).c_str());
-		glUniform1i(-1, i);
-		// and finally bind the texture
-		glBindTexture(GL_TEXTURE_2D, m_Mesh.getTextures()[i].id);
+		for (int k = 0; k < m_GroupsIndex[i].size(); k++)
+		{
+			tempCount++;
+		}
 	}
-	// draw mesh
-	glBindVertexArray(m_Mesh.getVAO());
-	glDrawElements(GL_TRIANGLES, m_Mesh.getIndices().size(), GL_UNSIGNED_INT, 0);
-	//glDrawElementsInstanced(GL_TRIANGLES, m_Mesh.getIndices().size(), GL_UNSIGNED_INT, 0, Common::TreesNumber);
-	//glBindVertexArray(0);
-
-	// always good practice to set everything back to defaults once configured.
-	glActiveTexture(GL_TEXTURE0);
+	return tempCount;
 }
 
 //****************************************************************************************************
@@ -74,13 +93,52 @@ void CTreeInstanceMesh::__setupMesh()
 	//glEnableVertexAttribArray(2);
 	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Common::SVertex), (void*)offsetof(Common::SVertex, TexCoords));
 
-	glGenBuffers(1, &m_VBODeformation);
+	/*glGenBuffers(1, &m_VBODeformation);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBODeformation);
 	glBufferData(GL_ARRAY_BUFFER, m_Deformation.size() * sizeof(glm::vec3), &m_Deformation[0], GL_STATIC_DRAW);
 	unsigned int VAO = m_Mesh.getVAO();
 	glBindVertexArray(VAO);
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);*/
+
+	/*glGenBuffers(1, &m_VBODeformation);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBODeformation);
+	glBufferData(GL_ARRAY_BUFFER, m_Deformations[0].size()*m_Deformations.size() * sizeof(glm::vec3), &(m_Deformations[0][0]), GL_STATIC_DRAW);*/
+	
+	//glGenBuffers(1, &m_VBOGroupsIndex);
+	//glBindBuffer(GL_ARRAY_BUFFER, m_VBOGroupsIndex);
+	//glBufferData(GL_ARRAY_BUFFER, getSizeOfGroupsIndex() * sizeof(int), &(m_GroupsIndex[0][0]), GL_STATIC_DRAW);
+
+	//for(int i=0;i<m_Model.get)
+
+	m_VBOGroupIndex = new unsigned int[m_GroupsIndex.size()];
+	for (int i = 0; i < m_GroupsIndex.size(); i++)
+	{
+		glGenBuffers(1, &(m_VBOGroupIndex[i]));
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBOGroupIndex[i]);
+		glBufferData(GL_ARRAY_BUFFER, m_GroupsIndex[i].size() * sizeof(int), &(m_GroupsIndex[i][0]), GL_STATIC_DRAW);
+	}
+
+	int count = 0;
+	for (const auto& Mesh : m_Model.getMeshes())
+	{
+		//每一个mesh的形变量数据
+		/*glBindVertexArray(Mesh.getVAO());
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBODeformation);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);*/
+
+		//每一个mesh中的group索引已经设置好
+		glBindVertexArray(Mesh.getVAO());
+		glBindBuffer(GL_ARRAY_BUFFER, m_VBOGroupIndex[count]);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 1, GL_INT, GL_FALSE, sizeof(int), (void*)0);
+		count++;
+	}
+	/*unsigned int VAO = m_Mesh.getVAO();
+	glBindVertexArray(VAO);
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);*/
 
 
 	//RandomRotation();
@@ -106,6 +164,12 @@ void CTreeInstanceMesh::__setupMesh()
 
 	//glBindVertexArray(0);
 
+}
+
+void CTreeInstanceMesh::draw(const CShader& vShader)
+{
+	for (const auto& Mesh : m_Model.getMeshes())
+		Mesh.draw(vShader);
 }
 
 void CTreeInstanceMesh::RandomRotation()

@@ -73,7 +73,8 @@
     <IncludePath>D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\GraduationProject\Vega\libraries\include;D:\GraduationProject\Vega\VegaRendering\VegaFemFactory;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\GraduationProject\Vega\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

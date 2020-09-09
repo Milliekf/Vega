@@ -26,6 +26,7 @@ namespace BaseObjConstruct
 		std::vector<SFace> Faces;
 		unsigned int FaceSize;
 		SGroup() = default;
+		//use对应的名字
 		SGroup(std::string vFaceName, unsigned int vFaceSize)
 		{
 			FaceName = vFaceName;

@@ -146,7 +146,7 @@ namespace Common
 
 	const size_t NumOfAxis = 3;
 
-	//每一帧来Multi的组
+	//每一帧中的某一个group，由顶点集合组成
 	struct SFileDataGroup
 	{
 		unsigned int GroupIndex;
@@ -164,7 +164,9 @@ namespace Common
 	struct SFileData
 	{
 		unsigned int FrameIndex;
+		//原始u
 		std::vector<glm::vec3> BaseFileDeformations;
+		//按照面顶点顺序排列的u
 		std::vector<SFileDataGroup> FileDeformation;
 		SFileData() = default;
 		SFileData(unsigned int vFrameIndex)

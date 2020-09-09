@@ -13,10 +13,14 @@
 #include <assimp/postprocess.h>
 #include "../Common/stb_image.h"
 #include "../Common/common.h"
-#include "TreeInstanceMesh.h"
+//#include "TreeInstanceMesh.h"
+#include "../VegaFemFactory/VegaFemFactory.h"
+#include "../VegaFemFactory/ObjStruct.h"
 #include "objMesh.h"
 #include "sceneObject.h"
 #include "objMeshRender.h"
+
+class CVegaFemFactory;
 
 class CSence
 {
@@ -29,10 +33,15 @@ public:
 
 	std::vector<std::vector<glm::vec3>>& getGroupDeformationData() { return m_EachFrameOfGroupData; };
 	void SetParaMesh();
+	void setGroupsIndex(CVegaFemFactory& vfemFactoryObject);
+	void setVerticesNumber(CVegaFemFactory& vfemFactoryObject);
+	std::vector<std::vector<int>> getGroupsIndex() { return m_GroupsIndex; }
+	std::vector<CMesh> getMeshes() { return m_Meshes; }
 	void senceDraw(const CShader& vShader, std::vector<std::vector<glm::vec3>> deformationFrames);
 	void setFileDirectiory(std::string vFileDirectory) { m_FileDirectory = vFileDirectory; }
-	void draw(const CShader& vShader, bool instance, std::vector<Common::SFileDataGroup> deformationFrames);
-	CTreeInstanceMesh addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames);
+	void draw(const CShader& vShader, bool instance);
+	/*CTreeInstanceMesh addMeshDeformationForTree(std::vector<Common::SFileDataGroup> deformationFrames);
+	CTreeInstanceMesh addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames);*/
 	/*std::vector<CMesh> getMeshes() const { return m_Meshes; }
 	void setFileDirectiory(std::string vFileDirectory) { m_FileDirectory = vFileDirectory; }
 	CTreeInstanceMesh addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames);
@@ -60,4 +69,7 @@ private:
 	const char* m_DataPtr = nullptr;
 	unsigned int m_DataSize;
 	std::vector<std::vector<glm::vec3>> m_EachFrameOfGroupData;
+	//所有的group中面的顶点索引
+	std::vector<std::vector<int>> m_GroupsIndex;
+	int m_VerticesNumber;
 };

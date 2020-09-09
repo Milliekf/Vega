@@ -7,7 +7,7 @@ CSence::CSence(const CMesh& vMesh)
 
 //****************************************************************************************************
 //FUNCTION:
-void CSence::draw(const CShader& vShader, bool instance, std::vector<Common::SFileDataGroup> deformationFrames)
+void CSence::draw(const CShader& vShader, bool instance)
 {
 	if (instance == false)
 	{
@@ -18,21 +18,35 @@ void CSence::draw(const CShader& vShader, bool instance, std::vector<Common::SFi
 	}
 	else
 	{
-		int i = 0;
+		//int i = 0;
 		for (auto& Mesh : m_Meshes)//一棵树的所有mesh的绘制
 		{
-			CTreeInstanceMesh tempMesh = addDeformationData(Mesh, deformationFrames[i].PositionsDeformation);
+			/*CTreeInstanceMesh tempMesh = addDeformationData(Mesh, deformationFrames[i].PositionsDeformation);
 			tempMesh.draw(vShader);
-			i++;
+			i++;*/
+			Mesh.draw(vShader);
 		}
 	}
 }
+
 //****************************************************************************************************
 //FUNCTION:
-CTreeInstanceMesh CSence::addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames)
-{
-	return CTreeInstanceMesh(vMesh, deformationFrames);
-}
+//CTreeInstanceMesh CSence::addMeshDeformationForTree(std::vector<Common::SFileDataGroup> deformationFrames)
+//{
+//	int i = 0;
+//	for (auto& Mesh : m_Meshes)//一棵树的所有mesh的绘制
+//	{
+//		CTreeInstanceMesh tempMesh = CTreeInstanceMesh(Mesh, deformationFrames[i].PositionsDeformation);
+//		return tempMesh;
+//	}
+//}
+
+//****************************************************************************************************
+//FUNCTION:
+//CTreeInstanceMesh CSence::addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames)
+//{
+//	return CTreeInstanceMesh(vMesh, deformationFrames);
+//}
 
 //通过groups获取顶点个数，将输入的deformation划分。
 void CSence::SetParaMesh()
@@ -41,6 +55,17 @@ void CSence::SetParaMesh()
 	{
 
 	}
+}
+
+//
+void CSence::setGroupsIndex(CVegaFemFactory& vfemFactoryObject)
+{
+	m_GroupsIndex = vfemFactoryObject.getModelTransformStruct()->getGroupsIndex();
+}
+
+void CSence::setVerticesNumber(CVegaFemFactory & vfemFactoryObject)
+{
+	m_VerticesNumber = vfemFactoryObject.getModelTransformStruct()->getVerticesNumber(); 
 }
 
 void CSence::__changeObjMeshStruct2Charptr(int vOutputMaterials)

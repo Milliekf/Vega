@@ -16,7 +16,9 @@ public:
 	CModelDeformationTransform(const std::string& vFileName);
 	void SaveDeformationVertexFromBaseModel(const double* u, int vDeformationSize, std::string vSaveFileName, int vtimeStepCounter);
 	void ConvertVertex2mutileVerteices(Common::SFileData &vBaseFileDeformation);
-
+	std::vector<BaseObjConstruct::SGroup> getGroups() { return m_Groups; }
+	std::vector<std::vector<int>> getGroupsIndex(){ return m_GroupsIndex; }
+	int getVerticesNumber() { return m_VerticesNumber; }
 private:
 	void __VertexFaceRelated();
 
@@ -26,4 +28,5 @@ private:
 	int m_VerticesNumber;
 	//一系列的group的集合
 	std::vector<BaseObjConstruct::SGroup> m_Groups;
-};
+	std::vector<std::vector<int>>m_GroupsIndex;
+};	

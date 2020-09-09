@@ -6,7 +6,7 @@ CVegaFemFactory::CVegaFemFactory(const std::string & vDirectoryName, const std::
 	readFilePath4Directory(vDirectoryName);
 	//根据上面解析的文件名将m_FilesData每个对象的角度和波动序列加上
 	setDeformationStateFromFileName();
-	//可以看作是一个obj的model对象，有mesh集合，以及group组集合
+	//可以看作是一个obj的model对象，有mesh集合，以及group组集合，
 	m_ModelTransformStruct = new CModelDeformationTransform(vMutilVerticesBaseFile);
 }
 
@@ -40,10 +40,12 @@ void CVegaFemFactory::readFilePath4Directory(const std::string & vDirectoryName)
 void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>& vSearchFrames, int vSearchConnectionIndex)
 {
 	Common::SConnectedFemFiles tempConnectedFile(vSearchConnectionIndex);
+	//记录所给角度下的位移需要几个位移文件来插值
 	int counterConnectFileNumber = 0;
+	//搜索到的指定角度下相关的位移文件集合
 	for (auto searchindex = 0; searchindex < vSearchFrames.size(); searchindex++)
 	{
-		//for循环文件的数量
+		//for循环路径下所有的位移文件
 		for (auto fileIndex = 0; fileIndex < m_FilesData.size(); fileIndex++)
 		{
 			if (vSearchFrames[searchindex].FileName == m_FilesData[fileIndex].FileName)
@@ -58,16 +60,15 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 					std::cout << "Error: could not open vertex file" << m_FilesData[fileIndex].FilePath << std::endl;
 				}
 				int Frameindex = 0;
-
-				while (getline(positionFile, lineString))
+				int stop = 0;
+				while (stop<20)
 				{
+					getline(positionFile, lineString);
 					sprintf(s, "Position%04d", timeStepCount);
 					std::istringstream sin(lineString);
 					std::string str;
 					sin >> str;//Position%04d后面有空格
-					//std::cout << s << std::endl;
-					//if (timeStepCount == 5) break;
-
+					//一帧
 					if (str == s)
 					{
 						std::string VertexSizeStr;
@@ -77,6 +78,7 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 						getline(positionFile, lineString);
 						std::istringstream dataset(lineString);
 
+						//一个位移文件数据中的一帧顶点位移
 						Common::SFileData tempFileData(Frameindex);
 						for (int j = 0; j < VertexSize; j++)
 						{
@@ -87,6 +89,7 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 						Frameindex++;
 						m_FilesData[fileIndex].Frames.push_back(tempFileData);
 					}
+					stop++;
 				}
 				m_FilesData[fileIndex].isLoadDataSet = true;
 				tempConnectedFile.FemDataset.push_back(&m_FilesData[fileIndex]);
@@ -182,17 +185,22 @@ std::string CVegaFemFactory::getFileName(const std::string & vFileDirectory)
 
 //将模型的原始形变数据扩大。
 //返回值用新的变量是否可以用引用，感觉不行，插值出的不能再SFileData中找到。
+//vConnectionIndex代表了第i棵树，vTimestep代表了第几帧
 std::vector<Common::SFileDataGroup> CVegaFemFactory::getConnectedFemMutileDeformation(int vConnectionIndex, int vTimestep)
 {
-	//搜索所有已经存储的相关Connection项
+	//搜索所有已经存储的相关Connection项,得出每一棵树位移所需要的相关位移文件
 	for (int connectIndex = 0; connectIndex < m_AllReallyLoadConnectedFem.size(); connectIndex++)
 	{
+		//找到了第vConnectionIndex所需要的插值位移文件
 		if (vConnectionIndex == m_AllReallyLoadConnectedFem[connectIndex].ConnectedIndex)
 		{
+			//这里就暂定插值文件就是本身，即不需要通过其它文件来插值
 			if (m_AllReallyLoadConnectedFem[connectIndex].Type == Common::EFileFramesType::OneRelatedFile)
 			{
+				//对一个位移文件中的所有帧数进行循环
 				for (int time = 0; time < (m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames.size(); time++)
 				{
+					//找到当前要绘制的帧数
 					if ((m_AllReallyLoadConnectedFem[connectIndex].FemDataset[0])->Frames[time].FrameIndex == vTimestep)
 					{
 						//返回模型的增量
@@ -205,6 +213,8 @@ std::vector<Common::SFileDataGroup> CVegaFemFactory::getConnectedFemMutileDeform
 				std::cout << "Finish Load Multile Vertex" << std::endl;
 			}
 		}
+
+
 	}
 }
 

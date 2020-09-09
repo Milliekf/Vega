@@ -21,6 +21,7 @@
 #include "../RenderingProcess/Sence.h"
 #include "../RenderingProcess/Mesh.h"
 #include "../VegaFemFactory/VegaFemFactory.h"
+#include "../RenderingProcess/TreeInstanceMesh.h"
 //#include "volumetricMeshLoader.h"
 //#include "tetMesh.h"
 //#include <vector>
@@ -58,7 +59,7 @@ int main()
 	CVegaFemFactory vFem("D:\\GraduationProject\\Vega\\models\\8.10\\test", "D://GraduationProject//Vega//models//8.10//1.obj");
 	std::vector<int> b{ 500, 500, 500 };
 	std::vector<std::pair<int, int>> angle;
-	int numbercounter = 3;
+	int numbercounter = 1;
 	for (int i = 0; i < numbercounter; i++)
 	{
 		angle.push_back(std::make_pair(0, i * 30));
@@ -66,9 +67,11 @@ int main()
 	/*std::vector<std::vector<glm::vec3>> u = vFem.objDeformation(a, b);*/
 	for (int i = 0; i < numbercounter; i++)
 	{
+		//给定角度下相关联的一些位移帧文件集合，但由于目前只有一个，就每个角度特定对应一个
 		std::vector<Common::SFileFrames> vtemp = vFem.searchFileFrames(angle[i].first, angle[i].second, b);
-		vFem.readFramesDeformationData(vtemp, i);
+		vFem.readFramesDeformationData(vtemp, i);//i本来应该是vtemp.size()
 	}
+
 	/*std::vector<Common::SFileFrames> vtemp=vFem.searchFileFrames(a.first,a.second, b);
 	vFem.readFramesDeformationData(vtemp,0);
 	_CrtDumpMemoryLeaks();*/
@@ -95,10 +98,36 @@ int main()
 	//CModel ourModel("../Model/xiangri/file.obj");
 
 	CSence ourModel("D:/GraduationProject/Vega/models/8.10/1.obj");
+	ourModel.setGroupsIndex(vFem);
+	ourModel.setVerticesNumber(vFem);
 	int i = 0;
 	int frame = 0, time = 0, timebase = 0;
 	// render loop
 	// -----------
+	//CTreeInstanceMesh *treeDeformationSet= new  CTreeInstanceMesh[numbercounter];
+	CTreeInstanceMesh treeDeformationSet[3];
+	std::vector<glm::vec3> DeformationOfFrames;
+	for (int j = 0; j < numbercounter; j++)
+	{
+		//得到每一帧的按照面的顺序排列的u
+		/*std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
+		vFem.cleanSFileDataGroup(j, i);*/
+		//CTreeInstanceMesh tempMesh = ourModel.addMeshDeformationForTree(temp);
+
+		treeDeformationSet[j] = CTreeInstanceMesh(ourModel, vFem.getFileFrames(j));
+		for (int i = 0; i < vFem.getFileFrames(0).Frames.size(); i++)
+		{
+			Common::SFileData frame = vFem.getFileFrames(0).Frames[i];
+			for (int k = 0; k < frame.BaseFileDeformations.size(); k++)
+			{
+				DeformationOfFrames.push_back(frame.BaseFileDeformations[k]);
+			}
+			//DeformationOfFrames = frame.BaseFileDeformations;
+		}
+		//treeDeformationSet[i].setDeformationFileFrames(vFem.getFileFrames(i));
+		//treeDeformationSet[i].__setupMesh
+	}
+
 	while (!glfwWindowShouldClose(Window))
 	{
 		// per-frame time logic
@@ -106,7 +135,7 @@ int main()
 		float currentFrame = glfwGetTime();
 		DeltaTime = (currentFrame - LastFrame);
 		LastFrame = currentFrame;
-		std::cout << "间隔时间" << DeltaTime << std::endl;
+		std::cout<<i << "帧间隔时间" << DeltaTime << std::endl;
 		/*outputfile << deltaTime << endl;*/
 		// input
 		// -----
@@ -127,16 +156,16 @@ int main()
 		ourShader.setMat4("view", view);
 
 		// render the loaded model
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(1.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		ourShader.setMat4("model", model);
-		/*std::vector<Common::SFileDataGroup> temp;
-		ourModel.draw(ourShader, false, temp);*/
+		//glm::mat4 model = glm::mat4(1.0f);
+		//model = glm::translate(model, glm::vec3(1.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+		//ourShader.setMat4("model", model);
+		//std::vector<Common::SFileDataGroup> temp;
+		//ourModel.draw(ourShader, false, temp);
 
-		if (i > 59)
+		if (i > 20)
 		{
-			i = i % 60;
+			i = i % 20;
 		}
 		for (int j = 0; j < numbercounter; j++)
 		{
@@ -144,9 +173,12 @@ int main()
 			model = glm::translate(model, glm::vec3(0.2f*j, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
 			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 			ourShader.setMat4("model", model);
-			std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
-			vFem.cleanSFileDataGroup(j, i);
-			ourModel.draw(ourShader, true, temp);
+			ourShader.setInt("frameIndex", i);
+			//每一帧的按照面的顺序排列的u,j=树，i=帧
+			/*std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
+			vFem.cleanSFileDataGroup(j, i);*/
+			//ourModel.draw(ourShader, true);
+			treeDeformationSet->draw(ourShader);
 		}
 		i++;
 
