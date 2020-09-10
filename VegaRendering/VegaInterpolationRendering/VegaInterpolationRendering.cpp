@@ -105,15 +105,19 @@ int main()
 	// render loop
 	// -----------
 	//CTreeInstanceMesh *treeDeformationSet= new  CTreeInstanceMesh[numbercounter];
+	int frameNums = vFem.getFileFrames(0).Frames.size();
+	int vertexNums = vFem.getFileFrames(0).Frames[0].BaseFileDeformations.size();
+	std::cout << frameNums << " " << vertexNums << std::endl;
+	glm::vec3* deformU = new glm::vec3[frameNums*vertexNums];
 	CTreeInstanceMesh treeDeformationSet[3];
 	std::vector<glm::vec3> DeformationOfFrames;
+	int count = 0;
 	for (int j = 0; j < numbercounter; j++)
 	{
 		//得到每一帧的按照面的顺序排列的u
 		/*std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
 		vFem.cleanSFileDataGroup(j, i);*/
 		//CTreeInstanceMesh tempMesh = ourModel.addMeshDeformationForTree(temp);
-
 		treeDeformationSet[j] = CTreeInstanceMesh(ourModel, vFem.getFileFrames(j));
 		for (int i = 0; i < vFem.getFileFrames(0).Frames.size(); i++)
 		{
@@ -121,12 +125,45 @@ int main()
 			for (int k = 0; k < frame.BaseFileDeformations.size(); k++)
 			{
 				DeformationOfFrames.push_back(frame.BaseFileDeformations[k]);
+				deformU[i*vertexNums + k] = frame.BaseFileDeformations[k];
+				count = i * vertexNums + k;
 			}
 			//DeformationOfFrames = frame.BaseFileDeformations;
 		}
 		//treeDeformationSet[i].setDeformationFileFrames(vFem.getFileFrames(i));
 		//treeDeformationSet[i].__setupMesh
 	}
+	std::cout << count << std::endl;
+
+	GLuint shader_index = glGetProgramResourceIndex(ourShader.getID(), GL_SHADER_STORAGE_BLOCK, "DeformationArray");
+	GLint SSBOBinding = 0, BlockDataSize = 0;
+	glGetIntegerv(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS, &SSBOBinding);
+	glGetIntegerv(GL_MAX_SHADER_STORAGE_BLOCK_SIZE, &BlockDataSize);
+
+	//初始化SSBO
+	unsigned int SSBO;
+	glGenBuffers(1, &SSBO);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBO);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec3)*frameNums*vertexNums, deformU, GL_STATIC_DRAW);
+	//glBindBuffer(GL_SHADER_STORAGE_BLOCK, 0);
+
+	//shader和点连接
+	GLuint ssbo_binding_point_index = 1;
+	//点和SSBO的连接
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, ssbo_binding_point_index, SSBO);
+	//点和shader的连接
+	glShaderStorageBlockBinding(ourShader.getID(), shader_index, ssbo_binding_point_index);
+
+	//更新数据
+	/*glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBO);
+	void* p = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY);
+	_ASSERT(p);
+	memcpy(p, u, sizeof(u));
+	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);*/
+
+	/*glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBO);
+	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(deformU), deformU);
+	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);*/
 
 	while (!glfwWindowShouldClose(Window))
 	{
@@ -135,7 +172,7 @@ int main()
 		float currentFrame = glfwGetTime();
 		DeltaTime = (currentFrame - LastFrame);
 		LastFrame = currentFrame;
-		std::cout<<i << "帧间隔时间" << DeltaTime << std::endl;
+		//std::cout<<i << "帧间隔时间" << DeltaTime << std::endl;
 		/*outputfile << deltaTime << endl;*/
 		// input
 		// -----
@@ -163,9 +200,9 @@ int main()
 		//std::vector<Common::SFileDataGroup> temp;
 		//ourModel.draw(ourShader, false, temp);
 
-		if (i > 20)
+		if (i >= 60)
 		{
-			i = i % 20;
+			i = i % 60;
 		}
 		for (int j = 0; j < numbercounter; j++)
 		{
