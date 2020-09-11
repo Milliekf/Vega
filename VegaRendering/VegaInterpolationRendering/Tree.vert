@@ -13,16 +13,12 @@ uniform int frameIndex;
 
 layout (std430, binding=1) buffer DeformationArray
 {
-	//float u[10];
-	vec3 u[80000];
+	vec4 u[];
 };
 
 void main()
 {
-	//gl_Position = vec4(aPos+0.5,1.0);
-	vec3 tempPos=aPos+vec3(u[5*77308+faceId].x,u[5*77308+faceId].y,u[5*77308+faceId].z);
-	gl_Position=projection * view * model*vec4(tempPos,1.0);
-	//gl_Position = vec4(aPos+u[frameIndex*77308+faceId],1.0);
-	//gl_Position = projection * view * model *vec4(aPos+u[frameIndex*77308+faceId],1.0);
+	vec4 tempPos=vec4(aPos,1.0)+u[frameIndex*77380+faceId];
+	gl_Position = projection*view*model*tempPos;
 	TexCoords = aTexCoords;  
 }

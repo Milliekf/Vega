@@ -64,7 +64,7 @@ int main()
 	{
 		angle.push_back(std::make_pair(0, i * 30));
 	}
-	/*std::vector<std::vector<glm::vec3>> u = vFem.objDeformation(a, b);*/
+
 	for (int i = 0; i < numbercounter; i++)
 	{
 		//给定角度下相关联的一些位移帧文件集合，但由于目前只有一个，就每个角度特定对应一个
@@ -72,9 +72,6 @@ int main()
 		vFem.readFramesDeformationData(vtemp, i);//i本来应该是vtemp.size()
 	}
 
-	/*std::vector<Common::SFileFrames> vtemp=vFem.searchFileFrames(a.first,a.second, b);
-	vFem.readFramesDeformationData(vtemp,0);
-	_CrtDumpMemoryLeaks();*/
 	// glfw: initialize and configure
 	// ------------------------------
 	GLFWwindow* Window = nullptr;
@@ -93,22 +90,17 @@ int main()
 
 	CShader ourShader("D:\\GraduationProject\\Vega\\VegaRendering\\VegaInterpolationRendering\\Tree.vert", "D:\\GraduationProject\\Vega\\VegaRendering\\VegaInterpolationRendering\\Tree.frag");
 
-	// load models
-	// -----------
-	//CModel ourModel("../Model/xiangri/file.obj");
-
 	CSence ourModel("D:/GraduationProject/Vega/models/8.10/1.obj");
+
 	ourModel.setGroupsIndex(vFem);
 	ourModel.setVerticesNumber(vFem);
-	int i = 0;
-	int frame = 0, time = 0, timebase = 0;
+	
 	// render loop
 	// -----------
-	//CTreeInstanceMesh *treeDeformationSet= new  CTreeInstanceMesh[numbercounter];
 	int frameNums = vFem.getFileFrames(0).Frames.size();
 	int vertexNums = vFem.getFileFrames(0).Frames[0].BaseFileDeformations.size();
 	std::cout << frameNums << " " << vertexNums << std::endl;
-	glm::vec3* deformU = new glm::vec3[frameNums*vertexNums];
+	glm::vec4* deformU = new glm::vec4[frameNums*vertexNums];
 	CTreeInstanceMesh treeDeformationSet[3];
 	std::vector<glm::vec3> DeformationOfFrames;
 	int count = 0;
@@ -125,13 +117,10 @@ int main()
 			for (int k = 0; k < frame.BaseFileDeformations.size(); k++)
 			{
 				DeformationOfFrames.push_back(frame.BaseFileDeformations[k]);
-				deformU[i*vertexNums + k] = frame.BaseFileDeformations[k];
+				deformU[i*vertexNums + k] = glm::vec4(frame.BaseFileDeformations[k],0.0f);
 				count = i * vertexNums + k;
 			}
-			//DeformationOfFrames = frame.BaseFileDeformations;
 		}
-		//treeDeformationSet[i].setDeformationFileFrames(vFem.getFileFrames(i));
-		//treeDeformationSet[i].__setupMesh
 	}
 	std::cout << count << std::endl;
 
@@ -145,7 +134,6 @@ int main()
 	glGenBuffers(1, &SSBO);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBO);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec3)*frameNums*vertexNums, deformU, GL_STATIC_DRAW);
-	//glBindBuffer(GL_SHADER_STORAGE_BLOCK, 0);
 
 	//shader和点连接
 	GLuint ssbo_binding_point_index = 1;
@@ -154,17 +142,7 @@ int main()
 	//点和shader的连接
 	glShaderStorageBlockBinding(ourShader.getID(), shader_index, ssbo_binding_point_index);
 
-	//更新数据
-	/*glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBO);
-	void* p = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY);
-	_ASSERT(p);
-	memcpy(p, u, sizeof(u));
-	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);*/
-
-	/*glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBO);
-	glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(deformU), deformU);
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);*/
-
+	int i = 0;
 	while (!glfwWindowShouldClose(Window))
 	{
 		// per-frame time logic
@@ -173,32 +151,20 @@ int main()
 		DeltaTime = (currentFrame - LastFrame);
 		LastFrame = currentFrame;
 		//std::cout<<i << "帧间隔时间" << DeltaTime << std::endl;
-		/*outputfile << deltaTime << endl;*/
-		// input
-		// -----
+
+		// input---
 		processInput(Window);
 
-		// render 
-		// ------
+		// render----
 		glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// don't forget to enable shader before setting uniforms
-		/*terrainShader.use();*/
 		ourShader.use();
-
+	
 		glm::mat4 projection = glm::perspective(glm::radians(Camera.getZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = Camera.getViewMatrix();
 		ourShader.setMat4("projection", projection);
 		ourShader.setMat4("view", view);
-
-		// render the loaded model
-		//glm::mat4 model = glm::mat4(1.0f);
-		//model = glm::translate(model, glm::vec3(1.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-		//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		//ourShader.setMat4("model", model);
-		//std::vector<Common::SFileDataGroup> temp;
-		//ourModel.draw(ourShader, false, temp);
 
 		if (i >= 60)
 		{
@@ -219,15 +185,10 @@ int main()
 		}
 		i++;
 
-		//ourModel.draw(ourShader);
-		//ourModel.draw(ourShader, true, u);
 		glfwSwapBuffers(Window);
 		glfwPollEvents();
-
 	}
-	//outputfile.close();
-	// glfw: terminate, clearing all previously allocated GLFW resources.
-	// ------------------------------------------------------------------
+
 	glfwTerminate();
 	return 0;
 }

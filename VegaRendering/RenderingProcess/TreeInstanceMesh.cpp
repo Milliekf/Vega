@@ -132,7 +132,7 @@ void CTreeInstanceMesh::__setupMesh()
 		glBindVertexArray(Mesh.getVAO());
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBOGroupIndex[count]);
 		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 1, GL_INT, GL_FALSE, sizeof(int), (void*)0);
+		glVertexAttribIPointer(3, 1, GL_INT, sizeof(int), (void*)0);
 		count++;
 	}
 	/*unsigned int VAO = m_Mesh.getVAO();
