@@ -18,13 +18,17 @@ public:
 	unsigned int getIndicesSize() const { return m_Indices.size(); }
 	void draw(const CShader& vShader) const;
 	void reset(const std::vector<Common::SVertex>& vVertices, const std::vector<unsigned int>& vIndices, const std::vector<Common::STexture> vTestures);
+	void setRotation(glm::mat4* temp);
 
 private:
+	unsigned int m_InstanceVBO;
 	
 	void __setupMesh();
+	void __setupInstanceMesh();
 	void __setParameter(const std::vector<Common::SVertex>& vVertices, const std::vector<unsigned int>& vIndices, const std::vector<Common::STexture> vTestures);
 
 	std::vector<Common::SVertex> m_Vertices;
 	std::vector<unsigned int> m_Indices;
 	std::vector<Common::STexture> m_Textures;
+	glm::mat4* m_modelMatrices;
 };

@@ -73,13 +73,14 @@
     <IncludePath>D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\GraduationProject\Vega\libraries\include;D:\GraduationProject\Vega\VegaRendering\VegaFemFactory;$(IncludePath)</IncludePath>
+    <IncludePath>D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\GraduationProject\Vega\x64\Release;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)\libraries\lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -131,15 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseMesh.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="FileManager.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Sence.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="TreeInstanceMesh.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -149,6 +141,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseMesh.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="FileManager.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Sence.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="TreeInstanceMesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

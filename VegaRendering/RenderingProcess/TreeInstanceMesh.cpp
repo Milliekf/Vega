@@ -174,8 +174,6 @@ void CTreeInstanceMesh::draw(const CShader& vShader)
 
 void CTreeInstanceMesh::RandomRotation()
 {
-
-
 	m_modelMatrices = new glm::mat4[Common::TreesNumber];
 
 	float x = -1.75f;

@@ -25,6 +25,12 @@ void CMesh::reset(const std::vector<Common::SVertex>& vVertices, const std::vect
 	__setupMesh();
 }
 
+void CMesh::setRotation(glm::mat4 * temp)
+{
+	m_modelMatrices = temp;
+	__setupInstanceMesh();
+}
+
 //****************************************************************************************************
 void CMesh::draw(const CShader& vShader) const
 {
@@ -58,7 +64,8 @@ void CMesh::draw(const CShader& vShader) const
 
 	// draw mesh
 	glBindVertexArray(m_VAO);
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+	//glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElementsInstanced(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0, Common::TreesNumber);
 	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured.
@@ -106,4 +113,30 @@ void CMesh::__setupMesh()
 		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Common::SVertex), (void*)offsetof(Common::SVertex, Bitangent));
 	}
 	glBindVertexArray(0);
+}
+
+void CMesh::__setupInstanceMesh()
+{
+	glBindVertexArray(m_VAO);
+
+	glGenBuffers(1, &m_InstanceVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_InstanceVBO);
+	glBufferData(GL_ARRAY_BUFFER, Common::TreesNumber * sizeof(glm::mat4), &m_modelMatrices[0], GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)0);
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(sizeof(glm::vec4)));
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(2 * sizeof(glm::vec4)));
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (GLvoid*)(3 * sizeof(glm::vec4)));
+
+	glVertexAttribDivisor(4, 1);
+	glVertexAttribDivisor(5, 1);
+	glVertexAttribDivisor(6, 1);
+	glVertexAttribDivisor(7, 1);
+
+	glBindVertexArray(0);
+
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Common/common.h"
+#include "common.h"
 #include "Shader.h"
 #include <string>
 

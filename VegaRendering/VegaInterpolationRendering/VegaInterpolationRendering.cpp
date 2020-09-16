@@ -17,11 +17,11 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include <GLFW/glfw3.h>
 #include "../RenderingProcess/Camera.h"
-#include "../RenderingProcess/Shader.h"
-#include "../RenderingProcess/Sence.h"
-#include "../RenderingProcess/Mesh.h"
-#include "../VegaFemFactory/VegaFemFactory.h"
-#include "../RenderingProcess/TreeInstanceMesh.h"
+#include "Shader.h"
+#include "Sence.h"
+#include "Mesh.h"
+#include "VegaFemFactory.h"
+#include "TreeInstanceMesh.h"
 //#include "volumetricMeshLoader.h"
 //#include "tetMesh.h"
 //#include <vector>
@@ -92,37 +92,37 @@ int main()
 
 	CSence ourModel("D:/GraduationProject/Vega/models/8.10/1.obj");
 
+	ourModel.setMeshRotation();
 	ourModel.setGroupsIndex(vFem);
 	ourModel.setVerticesNumber(vFem);
 	
 	// render loop
 	// -----------
+	//帧数
 	int frameNums = vFem.getFileFrames(0).Frames.size();
+	//obj模型的顶点数
 	int vertexNums = vFem.getFileFrames(0).Frames[0].BaseFileDeformations.size();
 	std::cout << frameNums << " " << vertexNums << std::endl;
-	glm::vec4* deformU = new glm::vec4[frameNums*vertexNums];
+	glm::vec4* deformU = new glm::vec4[frameNums*vertexNums*numbercounter];
 	CTreeInstanceMesh treeDeformationSet[3];
-	std::vector<glm::vec3> DeformationOfFrames;
+	//std::vector<glm::vec3> DeformationOfFrames;
 	int count = 0;
+	treeDeformationSet[0] = CTreeInstanceMesh(ourModel, vFem.getFileFrames(0));
 	for (int j = 0; j < numbercounter; j++)
 	{
-		//得到每一帧的按照面的顺序排列的u
-		/*std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
-		vFem.cleanSFileDataGroup(j, i);*/
-		//CTreeInstanceMesh tempMesh = ourModel.addMeshDeformationForTree(temp);
-		treeDeformationSet[j] = CTreeInstanceMesh(ourModel, vFem.getFileFrames(j));
-		for (int i = 0; i < vFem.getFileFrames(0).Frames.size(); i++)
+		//treeDeformationSet[j] = CTreeInstanceMesh(ourModel, vFem.getFileFrames(j));
+		for (int i = 0; i < vFem.getFileFrames(j).Frames.size(); i++)
 		{
-			Common::SFileData frame = vFem.getFileFrames(0).Frames[i];
+			Common::SFileData frame = vFem.getFileFrames(j).Frames[i];
 			for (int k = 0; k < frame.BaseFileDeformations.size(); k++)
 			{
-				DeformationOfFrames.push_back(frame.BaseFileDeformations[k]);
-				deformU[i*vertexNums + k] = glm::vec4(frame.BaseFileDeformations[k],0.0f);
-				count = i * vertexNums + k;
+				//DeformationOfFrames.push_back(frame.BaseFileDeformations[k]);
+				deformU[j*frameNums*vertexNums + i * vertexNums + k] = glm::vec4(frame.BaseFileDeformations[k], 0.0f);
+				count++;
 			}
 		}
 	}
-	std::cout << count << std::endl;
+	std::cout << deformU[numbercounter*frameNums*vertexNums - 1].x << " " << count << std::endl;
 
 	GLuint shader_index = glGetProgramResourceIndex(ourShader.getID(), GL_SHADER_STORAGE_BLOCK, "DeformationArray");
 	GLint SSBOBinding = 0, BlockDataSize = 0;
@@ -133,7 +133,7 @@ int main()
 	unsigned int SSBO;
 	glGenBuffers(1, &SSBO);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, SSBO);
-	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec3)*frameNums*vertexNums, deformU, GL_STATIC_DRAW);
+	glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(glm::vec4)*frameNums*vertexNums*numbercounter, deformU, GL_STATIC_DRAW);
 
 	//shader和点连接
 	GLuint ssbo_binding_point_index = 1;
@@ -163,6 +163,8 @@ int main()
 	
 		glm::mat4 projection = glm::perspective(glm::radians(Camera.getZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = Camera.getViewMatrix();
+		ourShader.setInt("frameNums", frameNums);
+		ourShader.setInt("vertexNums", vertexNums);
 		ourShader.setMat4("projection", projection);
 		ourShader.setMat4("view", view);
 
@@ -173,10 +175,11 @@ int main()
 		for (int j = 0; j < numbercounter; j++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(0.2f*j, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+			model = glm::translate(model, glm::vec3(0.1f*j, -1.75f, 0.0f));// translate it down so it's at the center of the scene
 			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 			ourShader.setMat4("model", model);
 			ourShader.setInt("frameIndex", i);
+			ourShader.setInt("treeIndex", j);
 			//每一帧的按照面的顺序排列的u,j=树，i=帧
 			/*std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
 			vFem.cleanSFileDataGroup(j, i);*/

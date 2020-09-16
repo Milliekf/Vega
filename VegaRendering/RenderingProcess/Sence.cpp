@@ -29,6 +29,41 @@ void CSence::draw(const CShader& vShader, bool instance)
 	}
 }
 
+void CSence::setMeshRotation()
+{
+	glm::mat4*temp = randomRotation();
+
+	for (auto& Mesh : m_Meshes)
+	{
+		Mesh.setRotation(temp);
+	}
+}
+
+glm::mat4* CSence::randomRotation()
+{
+	glm::mat4* modelMatrices = new glm::mat4[Common::TreesNumber];
+
+	float x = -1.75f;
+	int Size = sqrt(Common::TreesNumber);
+	//srand(time(0));
+	for (int i = 0; i < Size; i++)
+	{
+		for (int j = 0; j < Size; j++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(i, -1.75f, j));
+
+			srand(time(0));
+			float tempRandom = (float)RandomGenerate();
+			model = glm::rotate(model, glm::radians(tempRandom), glm::vec3(0.0, 1.0, 0.0));
+			modelMatrices[i * Size + j] = model;
+		}
+		// translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+	}
+
+	return modelMatrices;
+}
 //****************************************************************************************************
 //FUNCTION:
 //CTreeInstanceMesh CSence::addMeshDeformationForTree(std::vector<Common::SFileDataGroup> deformationFrames)

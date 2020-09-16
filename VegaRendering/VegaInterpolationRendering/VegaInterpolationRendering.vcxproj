@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\GraduationProject\Vega\libraries\lib\Release;D:\GraduationProject\Vega\x64\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -91,7 +91,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>VegaFemFactory.lib;RenderingProcess.lib;basicAlgorithms.lib;camera.lib;configFile.lib;constrainedDOFs.lib;corotationalLinearFEM.lib;forceModel.lib;getopts.lib;graph.lib;imageIO.lib;integrator.lib;integratorSparse.lib;isotropicHyperelasticFEM.lib;lighting.lib;listIO.lib;massSpringSystem.lib;matrixIO.lib;mesh.lib;minivector.lib;objMesh.lib;openGLHelper.lib;performanceCounter.lib;polarDecomposition.lib;sceneObject.lib;sparseMatrix.lib;sparseSolver.lib;stencilForceModel.lib;stvk.lib;volumetricMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Common.lib;VegaFemFactory.lib;RenderingProcess.lib;basicAlgorithms.lib;camera.lib;configFile.lib;constrainedDOFs.lib;corotationalLinearFEM.lib;forceModel.lib;getopts.lib;graph.lib;imageIO.lib;integrator.lib;integratorSparse.lib;isotropicHyperelasticFEM.lib;lighting.lib;listIO.lib;massSpringSystem.lib;matrixIO.lib;mesh.lib;minivector.lib;objMesh.lib;openGLHelper.lib;performanceCounter.lib;polarDecomposition.lib;sceneObject.lib;sparseMatrix.lib;sparseSolver.lib;stencilForceModel.lib;stvk.lib;volumetricMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\libraries\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -141,20 +142,6 @@
     <None Include="packages.config" />
     <None Include="Tree.frag" />
     <None Include="Tree.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\libraries\sceneObject\sceneObject.vcxproj">
-      <Project>{3268754a-a6f3-442a-a5fb-e51952dbcfc6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Common\Common.vcxproj">
-      <Project>{ffe4174e-9a25-4028-b22f-8d29a453ee6f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\RenderingProcess\RenderingProcess.vcxproj">
-      <Project>{dbd25957-7e9f-40a3-ad16-17fc2dc796ef}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\VegaFemFactory\VegaFemFactory.vcxproj">
-      <Project>{4d8480d7-7834-40a2-97ea-e34a72da8a63}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

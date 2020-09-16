@@ -1,5 +1,5 @@
 #pragma once
-#include "../Common/common.h"
+#include "common.h"
 #include "Shader.h"
 #include <string>
 
@@ -18,6 +18,6 @@ protected:
 	unsigned int m_EBO;
 
 private:
-	//virtual void __setupMesh() = 0;
+	virtual void __setupMesh() = 0;
 
 };
