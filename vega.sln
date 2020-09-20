@@ -374,8 +374,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VegaFemFactory", "VegaRende
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VegaInterpolationRendering", "VegaRendering\VegaInterpolationRendering\VegaInterpolationRendering.vcxproj", "{881F26F5-71EA-49C8-8E83-2F8D1963E8B9}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cuda_interpolation", "VegaRendering\cuda_interpolation\cuda_interpolation.vcxproj", "{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -800,14 +798,6 @@ Global
 		{881F26F5-71EA-49C8-8E83-2F8D1963E8B9}.Release|x64.Build.0 = Release|x64
 		{881F26F5-71EA-49C8-8E83-2F8D1963E8B9}.Release|x86.ActiveCfg = Release|Win32
 		{881F26F5-71EA-49C8-8E83-2F8D1963E8B9}.Release|x86.Build.0 = Release|Win32
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Debug|x64.ActiveCfg = Debug|x64
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Debug|x64.Build.0 = Debug|x64
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Debug|x86.ActiveCfg = Debug|Win32
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Debug|x86.Build.0 = Debug|Win32
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Release|x64.ActiveCfg = Release|x64
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Release|x64.Build.0 = Release|x64
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Release|x86.ActiveCfg = Release|Win32
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -881,7 +871,6 @@ Global
 		{DBD25957-7E9F-40A3-AD16-17FC2DC796EF} = {CA1278B1-FDCB-4C3B-A993-8FE7C38FB1AC}
 		{4D8480D7-7834-40A2-97EA-E34A72DA8A63} = {CA1278B1-FDCB-4C3B-A993-8FE7C38FB1AC}
 		{881F26F5-71EA-49C8-8E83-2F8D1963E8B9} = {CA1278B1-FDCB-4C3B-A993-8FE7C38FB1AC}
-		{6E74E951-D5D4-45E5-8CB4-780A7B6C3C4E} = {CA1278B1-FDCB-4C3B-A993-8FE7C38FB1AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {99173D97-76A2-4076-8802-0EB16E2D5191}
