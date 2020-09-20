@@ -1,16 +1,4 @@
-﻿// VegaInterpolationRendering.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
-//
-//#ifdef GLEW_STATIC
-//#  define GLEWAPI extern
-//#else
-//#  ifdef GLEW_BUILD
-//#    define GLEWAPI extern __declspec(dllexport)
-//#  else
-//#    define GLEWAPI extern __declspec(dllimport)
-//#  endif
-//#endif
-
-#include <iostream>
+﻿#include <iostream>
 #include <GL/glew.h>
 #include<glm/glm.hpp>
 #include<glm/gtc/type_ptr.hpp>
