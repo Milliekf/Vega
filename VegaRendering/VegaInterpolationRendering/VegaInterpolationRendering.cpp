@@ -44,7 +44,7 @@ float grasstime = 0.0f;
 
 int main()
 {
-	CVegaFemFactory vFem("D:\\GraduationProject\\Vega\\models\\8.10\\test", "D://GraduationProject//Vega//models//8.10//1.obj");
+	CVegaFemFactory vFem("../../models/8.10/test", "../../models/8.10/1.obj");
 	std::vector<int> b{ 500, 500, 500 };
 	std::vector<std::pair<int, int>> angle;
 	int numbercounter = 1;
@@ -76,9 +76,9 @@ int main()
 	// build and compile shaders
 	// -------------------------
 
-	CShader ourShader("D:\\GraduationProject\\Vega\\VegaRendering\\VegaInterpolationRendering\\Tree.vert", "D:\\GraduationProject\\Vega\\VegaRendering\\VegaInterpolationRendering\\Tree.frag");
+	CShader ourShader("../../VegaRendering/VegaInterpolationRendering/Tree.vert", "../../VegaRendering/VegaInterpolationRendering/Tree.frag");
 
-	CSence ourModel("D:/GraduationProject/Vega/models/8.10/1.obj");
+	CSence ourModel("../../models/8.10/1.obj");
 
 	ourModel.setMeshRotation();
 	ourModel.setGroupsIndex(vFem);
@@ -92,19 +92,15 @@ int main()
 	int vertexNums = vFem.getFileFrames(0).Frames[0].BaseFileDeformations.size();
 	std::cout << frameNums << " " << vertexNums << std::endl;
 	glm::vec4* deformU = new glm::vec4[frameNums*vertexNums*numbercounter];
-	CTreeInstanceMesh treeDeformationSet[3];
-	//std::vector<glm::vec3> DeformationOfFrames;
+	CTreeInstanceMesh treeDeformationSet = CTreeInstanceMesh(ourModel);
 	int count = 0;
-	treeDeformationSet[0] = CTreeInstanceMesh(ourModel, vFem.getFileFrames(0));
 	for (int j = 0; j < numbercounter; j++)
 	{
-		//treeDeformationSet[j] = CTreeInstanceMesh(ourModel, vFem.getFileFrames(j));
 		for (int i = 0; i < vFem.getFileFrames(j).Frames.size(); i++)
 		{
 			Common::SFileData frame = vFem.getFileFrames(j).Frames[i];
 			for (int k = 0; k < frame.BaseFileDeformations.size(); k++)
 			{
-				//DeformationOfFrames.push_back(frame.BaseFileDeformations[k]);
 				deformU[j*frameNums*vertexNums + i * vertexNums + k] = glm::vec4(frame.BaseFileDeformations[k], 0.0f);
 				count++;
 			}
@@ -175,7 +171,7 @@ int main()
 			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 			ourShader.setMat4("model", model);
 			ourShader.setInt("treeIndex", j);
-			treeDeformationSet->draw(ourShader);
+			treeDeformationSet.draw(ourShader);
 		}
 		//treeDeformationSet->draw(ourShader);
 		i++;

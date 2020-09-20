@@ -104,49 +104,6 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 	m_AllReallyLoadConnectedFem.push_back(tempConnectedFile);
 
 	std::cout << "Finish Load Search FileData To ConnectedFileFrames" << std::endl;
-	//for (auto searchindex = 0; searchindex < vSearchFrames.size(); searchindex++)
-	//{
-	//	for (auto fileIndex = 0; fileIndex < m_FileList.size(); fileIndex++)
-	//	{
-	//		if (vSearchFrames[searchindex].FileIndex == getFileName(m_FileList[fileIndex]))
-	//		{
-	//			int timeStepCount = 1;
-	//			std::ifstream positionFile(m_FileList[fileIndex]);
-	//			std::string lineString;
-	//			char s[4096];
-	//			double position[3];
-	//			if (!positionFile.is_open())
-	//			{
-	//				std::cout << "Error: could not open vertex file" << m_FileList[fileIndex] << std::endl;
-	//			}
-	//			int Frameindex = 0;
-
-	//			while (getline(positionFile, lineString))
-	//			{
-	//				sprintf(s, "Position%04d", timeStepCount);
-	//				std::istringstream sin(lineString);
-	//				std::string str;
-	//				sin >> str;//Position%04d后面有空格
-	//				sin.clear();
-	//				if (str == s)
-	//				{
-	//					std::string vertexsize;
-	//					getline(positionFile, vertexsize);
-	//					Common::SFileData tempFileData(Frameindex);
-	//					getline(positionFile, lineString);	
-	//					std::vector<double>frameArray;
-	//					std::istringstream dataset(lineString);
-	//					for (int j = 0; j < atoi(vertexsize.c_str()); j++)
-	//					{
-	//						dataset >> position[0] >> position[1] >> position[2];
-	//						tempFileData.BaseFileDeformations.push_back(glm::vec3(position[0], position[1], position[2]));
-	//					}
-	//					timeStepCount++;
-	//					Frameindex++;
-	//					vSearchFrames[searchindex].Frames.push_back(tempFileData);
-	//					vSearchFrames[searchindex].isLoadDataSet = true;
-	//				}
-	//			}
 }
 
 //对于已经创建的多个SFileFrames对象，根据每个对象的文件名解析出其对应的两个角度以及力的波动序列，进行对象的填充，此时还是没有读入每帧的位移数据

@@ -16,14 +16,11 @@
 #include "stb_image.h"
 #include "common.h"
 #include "ExtraTool.h"
-//#include "TreeInstanceMesh.h"
 #include "VegaFemFactory.h"
 #include "ObjStruct.h"
 #include "objMesh.h"
 #include "sceneObject.h"
 #include "objMeshRender.h"
-
-//class CVegaFemFactory;
 
 class CSence
 {
@@ -45,12 +42,6 @@ public:
 	void draw(const CShader& vShader, bool instance);
 	void setMeshRotation();
 	glm::mat4* randomRotation();
-	/*CTreeInstanceMesh addMeshDeformationForTree(std::vector<Common::SFileDataGroup> deformationFrames);
-	CTreeInstanceMesh addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames);*/
-	/*std::vector<CMesh> getMeshes() const { return m_Meshes; }
-	void setFileDirectiory(std::string vFileDirectory) { m_FileDirectory = vFileDirectory; }
-	CTreeInstanceMesh addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames);
-	void draw(const CShader& vShader, bool instance, std::vector<std::vector<glm::vec3>> deformationFrames);*/
 	bool gammaCorrection;
 
 private:
@@ -68,10 +59,7 @@ private:
 	double *m_RestVertexs;
 	std::vector<Common::STexture> m_Textures;
 	std::string m_FileDirectory;
-	double alphaBlendingThreshold;
-	std::map<int, std::set<int>> hiddenFaces;
 	std::string m_Data;
-	const char* m_DataPtr = nullptr;
 	unsigned int m_DataSize;
 	std::vector<std::vector<glm::vec3>> m_EachFrameOfGroupData;
 	//所有的group中面的顶点索引

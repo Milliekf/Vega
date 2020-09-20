@@ -6,9 +6,6 @@
 #include <assert.h>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
-//#include "../RenderingProcess/Mesh.h"
-//#include "../RenderingProcess/Sence.h"
-//#include "../RenderingProcess/Shader.h"
 #include "common.h"
 #include "ModelDeformationTransform.h"
 
@@ -36,8 +33,6 @@ public:
 	
 
 private:
-
-	void __InternalClassAddFilesData(std::string vFileIndex);
 	
 	//路径下面的每个文件的绝对路径集合，如：D:\GraduationProject\Vega\models\8.10\test\positionthe0phi0force500,500,500.txt
 	std::vector<std::string> m_FilePathList;

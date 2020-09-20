@@ -22,8 +22,8 @@ layout (std430, binding=1) buffer DeformationArray
 
 void main()
 {
-//	vec4 tempPos;
 	vec4 tempPos=vec4(aPos,1.0)+u[treeIndex*frameNums*vertexNums+frameIndex*vertexNums+faceId];
+//	vec4 tempPos;
 //	if(gl_InstanceID<5)
 //	{
 //		tempPos=vec4(aPos,1.0)+u[gl_InstanceID*frameNums*vertexNums+frameIndex*vertexNums+faceId];
