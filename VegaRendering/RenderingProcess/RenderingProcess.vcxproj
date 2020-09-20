@@ -138,7 +138,6 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Sence.cpp" />
     <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="TreeInstanceMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -150,7 +149,6 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Sence.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="TreeInstanceMesh.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
