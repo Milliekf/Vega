@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)libraries\lib\Release;$(SolutionDir)x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -92,7 +92,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>Common.lib;VegaFemFactory.lib;RenderingProcess.lib;basicAlgorithms.lib;camera.lib;configFile.lib;constrainedDOFs.lib;corotationalLinearFEM.lib;forceModel.lib;getopts.lib;graph.lib;imageIO.lib;integrator.lib;integratorSparse.lib;isotropicHyperelasticFEM.lib;lighting.lib;listIO.lib;massSpringSystem.lib;matrixIO.lib;mesh.lib;minivector.lib;objMesh.lib;openGLHelper.lib;performanceCounter.lib;polarDecomposition.lib;sceneObject.lib;sparseMatrix.lib;sparseSolver.lib;stencilForceModel.lib;stvk.lib;volumetricMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\libraries\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,7 +118,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>VegaFemFactory.lib;basicAlgorithms.lib;camera.lib;configFile.lib;constrainedDOFs.lib;corotationalLinearFEM.lib;forceModel.lib;getopts.lib;graph.lib;imageIO.lib;integrator.lib;integratorSparse.lib;isotropicHyperelasticFEM.lib;lighting.lib;listIO.lib;massSpringSystem.lib;matrixIO.lib;mesh.lib;minivector.lib;objMesh.lib;openGLHelper.lib;performanceCounter.lib;polarDecomposition.lib;sceneObject.lib;sparseMatrix.lib;sparseSolver.lib;stencilForceModel.lib;stvk.lib;volumetricMesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\GraduationProject\Vega\libraries\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
