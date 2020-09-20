@@ -83,6 +83,7 @@ int main()
 	ourModel.setMeshRotation();
 	ourModel.setGroupsIndex(vFem);
 	ourModel.setVerticesNumber(vFem);
+	ourModel.setMeshGroupIndex();
 	
 	// render loop
 	// -----------
@@ -92,7 +93,7 @@ int main()
 	int vertexNums = vFem.getFileFrames(0).Frames[0].BaseFileDeformations.size();
 	std::cout << frameNums << " " << vertexNums << std::endl;
 	glm::vec4* deformU = new glm::vec4[frameNums*vertexNums*numbercounter];
-	CTreeInstanceMesh treeDeformationSet = CTreeInstanceMesh(ourModel);
+	//CTreeInstanceMesh treeDeformationSet = CTreeInstanceMesh(ourModel);
 	int count = 0;
 	for (int j = 0; j < numbercounter; j++)
 	{
@@ -171,7 +172,8 @@ int main()
 			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 			ourShader.setMat4("model", model);
 			ourShader.setInt("treeIndex", j);
-			treeDeformationSet.draw(ourShader);
+			//treeDeformationSet.draw(ourShader);
+			ourModel.draw(ourShader);
 		}
 		//treeDeformationSet->draw(ourShader);
 		i++;

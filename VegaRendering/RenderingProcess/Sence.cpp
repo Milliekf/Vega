@@ -7,26 +7,13 @@ CSence::CSence(const CMesh& vMesh)
 
 //****************************************************************************************************
 //FUNCTION:
-void CSence::draw(const CShader& vShader, bool instance)
+void CSence::draw(const CShader& vShader)
 {
-	if (instance == false)
+	for (auto& Mesh : m_Meshes)
 	{
-		//m_Meshes[0].draw(vShader);
-		//m_Meshes[1].draw(vShader);
-		for (const auto& Mesh : m_Meshes)
-			Mesh.draw(vShader);
+		Mesh.draw(vShader);
 	}
-	else
-	{
-		//int i = 0;
-		for (auto& Mesh : m_Meshes)//一棵树的所有mesh的绘制
-		{
-			/*CTreeInstanceMesh tempMesh = addDeformationData(Mesh, deformationFrames[i].PositionsDeformation);
-			tempMesh.draw(vShader);
-			i++;*/
-			Mesh.draw(vShader);
-		}
-	}
+
 }
 
 void CSence::setMeshRotation()
@@ -64,24 +51,16 @@ glm::mat4* CSence::randomRotation()
 
 	return modelMatrices;
 }
-//****************************************************************************************************
-//FUNCTION:
-//CTreeInstanceMesh CSence::addMeshDeformationForTree(std::vector<Common::SFileDataGroup> deformationFrames)
-//{
-//	int i = 0;
-//	for (auto& Mesh : m_Meshes)//一棵树的所有mesh的绘制
-//	{
-//		CTreeInstanceMesh tempMesh = CTreeInstanceMesh(Mesh, deformationFrames[i].PositionsDeformation);
-//		return tempMesh;
-//	}
-//}
 
-//****************************************************************************************************
-//FUNCTION:
-//CTreeInstanceMesh CSence::addDeformationData(CMesh vMesh, std::vector<glm::vec3> deformationFrames)
-//{
-//	return CTreeInstanceMesh(vMesh, deformationFrames);
-//}
+void CSence::setMeshGroupIndex()
+{
+	int count = 0;
+	for (auto& Mesh : m_Meshes)
+	{
+		Mesh.setGroupIndex(m_GroupsIndex[count]);
+		count++;
+	}
+}
 
 //通过groups获取顶点个数，将输入的deformation划分。
 void CSence::SetParaMesh()

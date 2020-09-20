@@ -31,6 +31,12 @@ void CMesh::setRotation(glm::mat4 * temp)
 	__setupInstanceMesh();
 }
 
+void CMesh::setGroupIndex(std::vector<int>& vGroupIndex)
+{
+	m_GroupIndex = vGroupIndex;
+	__setupGroupIndexMesh();
+}
+
 //****************************************************************************************************
 void CMesh::draw(const CShader& vShader) const
 {
@@ -139,4 +145,16 @@ void CMesh::__setupInstanceMesh()
 
 	glBindVertexArray(0);
 
+}
+
+void CMesh::__setupGroupIndexMesh()
+{
+	glBindVertexArray(m_VAO);
+	
+	glGenBuffers(1, &m_GroupIndexVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_GroupIndexVBO);
+	glBufferData(GL_ARRAY_BUFFER, m_GroupIndex.size() * sizeof(int), &(m_GroupIndex[0]), GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(3);
+	glVertexAttribIPointer(3, 1, GL_INT, sizeof(int), (void*)0);
 }

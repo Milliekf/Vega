@@ -39,9 +39,10 @@ public:
 	std::vector<CMesh> getMeshes() { return m_Meshes; }
 	void senceDraw(const CShader& vShader, std::vector<std::vector<glm::vec3>> deformationFrames);
 	void setFileDirectiory(std::string vFileDirectory) { m_FileDirectory = vFileDirectory; }
-	void draw(const CShader& vShader, bool instance);
+	void draw(const CShader& vShader);
 	void setMeshRotation();
 	glm::mat4* randomRotation();
+	void setMeshGroupIndex();
 	bool gammaCorrection;
 
 private:
