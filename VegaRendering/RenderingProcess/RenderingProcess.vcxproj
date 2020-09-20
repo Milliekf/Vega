@@ -70,11 +70,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)libraries\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\GraduationProject\Vega\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)x64\Release;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)\libraries\lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
