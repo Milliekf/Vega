@@ -22,8 +22,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <OutDir>$(SolutionDir)\utilities\bin\$(Configuration)\</OutDir>
-    <IncludePath>D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\mkl\include;D:\GraduationProject\Vega\libraries\glui\glui-2.35\src\include;D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
-    <ExecutablePath>D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\mkl\bin;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(IntelSWTools)\mkl\include;$(Glui)\include;D:\GraduationProject\Vega\libraries\include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(IntelSWTools)\mkl\bin;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>

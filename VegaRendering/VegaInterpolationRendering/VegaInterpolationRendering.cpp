@@ -142,6 +142,14 @@ int main()
 	//点和shader的连接
 	glShaderStorageBlockBinding(ourShader.getID(), shader_index, ssbo_binding_point_index);
 
+	ourShader.use();
+	ourShader.setInt("frameNums", frameNums);
+	ourShader.setInt("vertexNums", vertexNums);
+	//glm::mat4 model = glm::mat4(1.0f);
+	//model = glm::translate(model, glm::vec3(1.0f, -0.5f, 0.0f));// translate it down so it's at the center of the scene
+	//model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+	//ourShader.setMat4("model", model);
+
 	int i = 0;
 	while (!glfwWindowShouldClose(Window))
 	{
@@ -163,10 +171,9 @@ int main()
 	
 		glm::mat4 projection = glm::perspective(glm::radians(Camera.getZoom()), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = Camera.getViewMatrix();
-		ourShader.setInt("frameNums", frameNums);
-		ourShader.setInt("vertexNums", vertexNums);
 		ourShader.setMat4("projection", projection);
-		ourShader.setMat4("view", view);
+		ourShader.setMat4("view", view);	
+		ourShader.setInt("frameIndex", i);
 
 		if (i >= 60)
 		{
@@ -174,18 +181,15 @@ int main()
 		}
 		for (int j = 0; j < numbercounter; j++)
 		{
+
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(0.1f*j, -1.75f, 0.0f));// translate it down so it's at the center of the scene
+			model = glm::translate(model, glm::vec3(1.0f*j, -0.5f, 0.0f));// translate it down so it's at the center of the scene
 			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 			ourShader.setMat4("model", model);
-			ourShader.setInt("frameIndex", i);
 			ourShader.setInt("treeIndex", j);
-			//每一帧的按照面的顺序排列的u,j=树，i=帧
-			/*std::vector<Common::SFileDataGroup> temp = vFem.getConnectedFemMutileDeformation(j, i);
-			vFem.cleanSFileDataGroup(j, i);*/
-			//ourModel.draw(ourShader, true);
 			treeDeformationSet->draw(ourShader);
 		}
+		//treeDeformationSet->draw(ourShader);
 		i++;
 
 		glfwSwapBuffers(Window);

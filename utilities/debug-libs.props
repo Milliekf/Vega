@@ -16,7 +16,7 @@
     </GLEW_LIBRARIES>
   </PropertyGroup>
   <PropertyGroup>
-    <LibraryPath>D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\mkl\lib\intel64_win;D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\compiler\lib\intel64_win;D:\Environment\Pre-built\lib\x64;D:\Environment\dev_32\auxiliary\gmp\lib;D:\GraduationProject\Vega\libraries\glui\glui-2.35\src\msvc\lib\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(IntelSWTools)\mkl\lib\intel64_win;$(IntelSWTools)\compiler\lib\intel64_win;$(Pre-built)\lib\x64;$(CGAL)\auxiliary\gmp\lib;$(Glui)\msvc\lib\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link />

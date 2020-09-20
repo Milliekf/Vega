@@ -51,7 +51,7 @@ glm::mat4* CSence::randomRotation()
 		for (int j = 0; j < Size; j++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(i, -1.75f, j));
+			model = glm::translate(model, glm::vec3(0.5f*i, -0.5f, j*1.0f));
 
 			srand(time(0));
 			float tempRandom = (float)RandomGenerate();

@@ -65,7 +65,7 @@ void CMesh::draw(const CShader& vShader) const
 	// draw mesh
 	glBindVertexArray(m_VAO);
 	//glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
-	glDrawElementsInstanced(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0, Common::TreesNumber);
+	glDrawElementsInstanced(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0, 100);
 	glBindVertexArray(0);
 
 	// always good practice to set everything back to defaults once configured.

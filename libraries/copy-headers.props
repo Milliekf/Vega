@@ -6,9 +6,9 @@
     <DistInclude>$(SolutionDir)\libraries\include</DistInclude>
   </PropertyGroup>
   <PropertyGroup>
-    <IncludePath>D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\mkl\include;D:\Environment\Pre-built\include;D:\Environment\dev_32\include;D:\Environment\dev_32\auxiliary\gmp\include;D:\Environment\boost_1_73_0\boost_1_73_0;D:\Environment\eigen-3.2.10;D:\Environment\libigl\include;$(IncludePath)</IncludePath>
-    <ExecutablePath>D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\mkl\bin;$(ExecutablePath)</ExecutablePath>
-    <LibraryPath>D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\mkl\lib\intel64_win;D:\Program Files\IntelSWTools\compilers_and_libraries_2020.2.254\windows\compiler\lib\intel64_win;D:\Environment\Pre-built\lib\x64;D:\Environment\boost_1_73_0\boost_1_73_0\libs;D:\Environment\dev_32\auxiliary\gmp\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(IntelSWTools)\mkl\include;$(Pre-built)\include;$(CGAL)\include;$(CGAL)\auxiliary\gmp\include;$(Boost);$(eigen);$(libigl)\include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(IntelSWTools)\mkl\bin;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(IntelSWTools)\mkl\lib\intel64_win;$(IntelSWTools)\compiler\lib\intel64_win;$(Pre-built)\lib\x64;$(Boost)\libs;$(CGAL)\auxiliary\gmp\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>

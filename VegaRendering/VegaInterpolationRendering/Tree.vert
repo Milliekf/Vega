@@ -22,7 +22,17 @@ layout (std430, binding=1) buffer DeformationArray
 
 void main()
 {
+//	vec4 tempPos;
 	vec4 tempPos=vec4(aPos,1.0)+u[treeIndex*frameNums*vertexNums+frameIndex*vertexNums+faceId];
+//	if(gl_InstanceID<5)
+//	{
+//		tempPos=vec4(aPos,1.0)+u[gl_InstanceID*frameNums*vertexNums+frameIndex*vertexNums+faceId];
+//	}
+//	else
+//	{
+//		int tempInstanceIndex= gl_InstanceID / 100;
+//		tempPos=vec4(aPos,1.0)+u[tempInstanceIndex*frameNums*vertexNums+frameIndex*vertexNums+faceId];
+//	}
 	gl_Position = projection * view * model * instanceMatrix * tempPos;
 	TexCoords = aTexCoords;  
 }

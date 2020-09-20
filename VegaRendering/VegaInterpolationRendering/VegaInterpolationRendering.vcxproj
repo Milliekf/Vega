@@ -143,6 +143,17 @@
     <None Include="Tree.frag" />
     <None Include="Tree.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{ffe4174e-9a25-4028-b22f-8d29a453ee6f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\RenderingProcess\RenderingProcess.vcxproj">
+      <Project>{dbd25957-7e9f-40a3-ad16-17fc2dc796ef}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VegaFemFactory\VegaFemFactory.vcxproj">
+      <Project>{4d8480d7-7834-40a2-97ea-e34a72da8a63}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\..\..\..\vc_packages\glew.redist.2.1.0\build\native\GLEW.redist.targets" Condition="Exists('..\..\..\..\vc_packages\glew.redist.2.1.0\build\native\GLEW.redist.targets')" />
