@@ -4,6 +4,8 @@
 #include <fstream>
 #include<sstream>
 #include <assert.h>
+#include <thread>
+#include <time.h>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include "common.h"
@@ -19,6 +21,9 @@ public:
 
 	void readFilePath4Directory(const std::string & vDirectoryName);
 	void readFramesDeformationData(std::vector<Common::SFileFrames>& vSearchFrames, int vSearchConnectionIndex);
+	void readDeformationDataByMutileThread(Common::SFileFrames& vBaseFileFramesStruct, const std::string& vFilePath, int vSFileFramesIndex);
+	void readDeformationDataInOneThread(Common::SFileData& vFileData, int vTid, const std::string& vFilePath, long long vBlockSize);
+	void addSeekgOfEachFramesBlock(const std::string& vFilePath);
 	std::vector<Common::SFileDataGroup> getConnectedFemMutileDeformation(int vConnectionIndex, int vTimestep);
 	//根据文件的绝对路径取文件名字,如：positionthe0phi0force500,500,500
 	std::string getFileName(const std::string & vFileDirectory);
@@ -33,7 +38,8 @@ public:
 	
 
 private:
-	
+
+	void __getFileSeekDirOfEachBlock(const std::string& vFilePath, std::vector<long long>& vBlock);
 	//路径下面的每个文件的绝对路径集合，如：D:\GraduationProject\Vega\models\8.10\test\positionthe0phi0force500,500,500.txt
 	std::vector<std::string> m_FilePathList;
 	//形变文件的集合

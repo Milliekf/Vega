@@ -43,6 +43,7 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 	//记录所给角度下的位移需要几个位移文件来插值
 	int counterConnectFileNumber = 0;
 	//搜索到的指定角度下相关的位移文件集合
+	time_t current = time(NULL);
 	for (auto searchindex = 0; searchindex < vSearchFrames.size(); searchindex++)
 	{
 		//for循环路径下所有的位移文件
@@ -50,6 +51,7 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 		{
 			if (vSearchFrames[searchindex].FileName == m_FilesData[fileIndex].FileName)
 			{
+				//readDeformationDataByMutileThread(m_FilesData[fileIndex], m_FilesData[fileIndex].FilePath, fileIndex);
 				int timeStepCount = 1;
 				std::ifstream positionFile(m_FilesData[fileIndex].FilePath);
 				std::string lineString;
@@ -97,6 +99,8 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 			}
 		}
 	}
+	time_t last = time(NULL);
+	std::cout<<"time is"<<last-current<<std::endl;
 	if (counterConnectFileNumber == 1) tempConnectedFile.Type = Common::EFileFramesType::OneRelatedFile;
 	else if (counterConnectFileNumber == 2) tempConnectedFile.Type = Common::EFileFramesType::TwoRelatedFiles;
 	else if (counterConnectFileNumber == 4) tempConnectedFile.Type = Common::EFileFramesType::FourRelatedFiles;
@@ -104,6 +108,107 @@ void CVegaFemFactory::readFramesDeformationData(std::vector<Common::SFileFrames>
 	m_AllReallyLoadConnectedFem.push_back(tempConnectedFile);
 
 	std::cout << "Finish Load Search FileData To ConnectedFileFrames" << std::endl;
+}
+
+//多线程读取一个文件
+//第二个参数已经加载的结构体的第几个FileFrames
+void CVegaFemFactory::readDeformationDataByMutileThread(Common::SFileFrames & vBaseFileFramesStruct, const std::string & vFilePath, int vSFileFramesIndex)
+{
+	std::vector<long long> BlockSizes;
+	__getFileSeekDirOfEachBlock(vFilePath, BlockSizes);
+
+	std::vector<Common::SFileData> Frames;
+	for (int i = 0; i < Common::readFrames; i++)
+	{
+		Common::SFileData tempFileData(i);
+		Frames.push_back(tempFileData);
+	}
+
+	//int i = 2;
+	//readDeformationDataInOneThread(Frames[i], i, vFilePath, BlockSize);
+	std::vector<std::thread> ReadFrameThreads;
+	for (int i = 0; i < Common::readFrames; i++)
+	{
+		Common::SFileData& temp = Frames[i];
+		std::thread th(&CVegaFemFactory::readDeformationDataInOneThread, this, std::ref(Frames[i]), i, vFilePath, BlockSizes[i]);
+		ReadFrameThreads.emplace_back(std::move(th));
+	}
+
+	auto it = ReadFrameThreads.begin();
+	for (; it != ReadFrameThreads.end(); ++it)
+		(*it).join();
+
+	std::this_thread::sleep_for(std::chrono::seconds(3));
+	vBaseFileFramesStruct.Frames = Frames;
+}
+
+void CVegaFemFactory::readDeformationDataInOneThread(Common::SFileData & vFileData, int vTid, const std::string & vFilePath, long long vBlockSize)
+{
+	std::ifstream positionFile(vFilePath.c_str(), std::ios::in);
+	if (!positionFile.good())
+	{
+		std::cout << "Thread :" << vTid << "failed to Open" << std::endl;
+		return;
+	}
+	std::cout << "vTid" << vTid * vBlockSize << std::endl;
+	positionFile.seekg(vBlockSize);
+	char PositionIndex[4096];
+	double position[3];
+	std::string lineString;
+
+	sprintf(PositionIndex, "Position%04d", vTid + 1);
+	getline(positionFile, lineString);
+	std::istringstream sin(lineString);
+	std::string FilePositonIndex;
+	sin >> FilePositonIndex;
+	if (FilePositonIndex == PositionIndex)
+	{
+		std::cout << FilePositonIndex << std::endl;
+		std::string VertexSizeStr;
+		getline(positionFile, VertexSizeStr);
+		int VertexSize = atoi(VertexSizeStr.c_str());
+
+		getline(positionFile, lineString);
+		std::istringstream Dataset(lineString);
+
+		for (int j = 0; j < VertexSize; j++)
+		{
+			Dataset >> position[0] >> position[1] >> position[2];
+			vFileData.BaseFileDeformations.push_back(glm::vec3(position[0], position[1], position[2]));
+		}
+	}
+}
+
+void CVegaFemFactory::addSeekgOfEachFramesBlock(const std::string & vFilePath)
+{
+	const size_t last_slash_idx = vFilePath.rfind('.txt');
+	std::string FramesBlockFileName = vFilePath.substr(0, last_slash_idx - 3);
+	FramesBlockFileName = FramesBlockFileName + "Block.block";
+	std::ifstream positionFile(vFilePath.c_str(), std::ios::in);
+	if (!positionFile.good())
+	{
+		std::cout << "failed to Open File" << vFilePath << "Can't get File Para" << std::endl;
+		return;
+	}
+	std::vector<long long>tempBlockSizes;
+	tempBlockSizes.push_back(0);
+	std::string lineString;
+	while (getline(positionFile, lineString))
+	{
+		getline(positionFile, lineString);
+		getline(positionFile, lineString);
+		long long BlockSize = positionFile.tellg();
+		tempBlockSizes.push_back(BlockSize);
+	}
+	positionFile.close();
+
+	std::ofstream writePositionFile(FramesBlockFileName, std::ios::out);
+	for (auto i = 0; i < tempBlockSizes.size(); i++)
+	{
+		writePositionFile << tempBlockSizes[i] << " ";
+	}
+	writePositionFile << std::endl;
+	writePositionFile.close();
 }
 
 //对于已经创建的多个SFileFrames对象，根据每个对象的文件名解析出其对应的两个角度以及力的波动序列，进行对象的填充，此时还是没有读入每帧的位移数据
@@ -189,6 +294,33 @@ void CVegaFemFactory::cleanSFileDataGroup(int vConnectionIndex, int vTimestep)
 				}
 			}
 		}
+	}
+}
+
+void CVegaFemFactory::__getFileSeekDirOfEachBlock(const std::string & vFilePath, std::vector<long long>& vBlock)
+{
+	const size_t last_slash_idx = vFilePath.rfind('.txt');
+	std::string FramesBlockFileName = vFilePath.substr(0, last_slash_idx - 3);
+	FramesBlockFileName = FramesBlockFileName + "Block.block";
+
+	std::ifstream positionFile(FramesBlockFileName.c_str(), std::ios::in);
+	if (!positionFile.good())
+	{
+		std::cout << "failed to Open File" << vFilePath << "Can't get File Para" << std::endl;
+		addSeekgOfEachFramesBlock(vFilePath);
+		std::cout << "create Data Block" << std::endl;
+	}
+	positionFile.close();
+
+	std::ifstream preparepositionFile(FramesBlockFileName.c_str(), std::ios::in);
+	std::string lineString;
+	getline(preparepositionFile, lineString);
+	std::istringstream Dataset(lineString);
+	for (int i = 0; i < Common::readFrames; i++)
+	{
+		long long tempData;
+		Dataset >> tempData;
+		vBlock.push_back(tempData);
 	}
 }
 

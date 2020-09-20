@@ -172,10 +172,9 @@ int main()
 			model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
 			ourShader.setMat4("model", model);
 			ourShader.setInt("treeIndex", j);
-			//treeDeformationSet.draw(ourShader);
 			ourModel.draw(ourShader);
 		}
-		//treeDeformationSet->draw(ourShader);
+		//ourModel.draw(ourShader)
 		i++;
 
 		glfwSwapBuffers(Window);
