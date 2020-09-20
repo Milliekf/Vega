@@ -74,6 +74,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\libraries\basicAlgorithms;$(SolutionDir)\libraries\exactArithmetic;$(SolutionDir)\libraries\interpolationCoordinates;$(SolutionDir)\libraries\libiglInterface;$(SolutionDir)\libraries\listIO;$(SolutionDir)\libraries\mesh;$(SolutionDir)\libraries\minivector;$(SolutionDir)\libraries\objMesh;$(SolutionDir)\libraries\performanceCounter;$(SolutionDir)\libraries\sparseMatrix;$(SolutionDir)\libraries\virtualTets;$(SolutionDir)\libraries\volumetricMesh;$(SolutionDir)\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -82,6 +82,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\libraries\basicAlgorithms;$(SolutionDir)\libraries\camera;$(SolutionDir)\libraries\configFile;$(SolutionDir)\libraries\constrainedDOFs;$(SolutionDir)\libraries\forceModel;$(SolutionDir)\libraries\getopts;$(SolutionDir)\libraries\hashTable;$(SolutionDir)\libraries\imageIO;$(SolutionDir)\libraries\integrator;$(SolutionDir)\libraries\integratorDense;$(SolutionDir)\libraries\integratorSparse;$(SolutionDir)\libraries\lighting;$(SolutionDir)\libraries\listIO;$(SolutionDir)\libraries\macros;$(SolutionDir)\libraries\matrix;$(SolutionDir)\libraries\matrixIO;$(SolutionDir)\libraries\mesh;$(SolutionDir)\libraries\minivector;$(SolutionDir)\libraries\modalMatrix;$(SolutionDir)\libraries\objMesh;$(SolutionDir)\libraries\objMeshGPUDeformer;$(SolutionDir)\libraries\openGLHelper;$(SolutionDir)\libraries\reducedElasticForceModel;$(SolutionDir)\libraries\reducedForceModel;$(SolutionDir)\libraries\reducedStvk;$(SolutionDir)\libraries\rigidBodyDynamics;$(SolutionDir)\libraries\sceneObject;$(SolutionDir)\libraries\sceneObjectReduced;$(SolutionDir)\libraries\sparseMatrix;$(SolutionDir)\libraries\stvk;$(SolutionDir)\libraries\volumetricMesh;$(SolutionDir)\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

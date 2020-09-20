@@ -70,6 +70,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\libraries\constrainedDOFs;$(SolutionDir)\libraries\forceModel;$(SolutionDir)\libraries\integrator;$(SolutionDir)\libraries\matrixIO;$(SolutionDir)\libraries\performanceCounter;$(SolutionDir)\libraries\sparseMatrix;$(SolutionDir)\libraries\sparseSolver;$(SolutionDir)\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -81,6 +81,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\libraries\basicAlgorithms;$(SolutionDir)\libraries\camera;$(SolutionDir)\libraries\clothBW;$(SolutionDir)\libraries\configFile;$(SolutionDir)\libraries\constrainedDOFs;$(SolutionDir)\libraries\forceModel;$(SolutionDir)\libraries\getopts;$(SolutionDir)\libraries\imageIO;$(SolutionDir)\libraries\integrator;$(SolutionDir)\libraries\integratorSparse;$(SolutionDir)\libraries\lighting;$(SolutionDir)\libraries\listIO;$(SolutionDir)\libraries\macros;$(SolutionDir)\libraries\minivector;$(SolutionDir)\libraries\objMesh;$(SolutionDir)\libraries\openGLHelper;$(SolutionDir)\libraries\performanceCounter;$(SolutionDir)\libraries\sceneObject;$(SolutionDir)\libraries\sparseMatrix;$(SolutionDir)\libraries\sparseSolver;$(SolutionDir)\libraries\stencilForceModel;$(SolutionDir)\libraries\volumetricMesh;$(SolutionDir)\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

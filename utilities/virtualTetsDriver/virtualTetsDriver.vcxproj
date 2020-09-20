@@ -81,6 +81,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\libraries\virtualTets;$(SolutionDir)\libraries\interpolationCoordinates;$(SolutionDir)\libraries\sparseSolver;$(SolutionDir)\libraries\polarDecomposition;$(SolutionDir)\libraries\matrix;$(SolutionDir)\libraries\libiglInterface;$(SolutionDir)\libraries\exactArithmetic;$(SolutionDir)\libraries\volumetricMesh;$(SolutionDir)\libraries\objMesh;$(SolutionDir)\libraries\macros;$(SolutionDir)\libraries\mesh;$(SolutionDir)\libraries\sparseMatrix;$(SolutionDir)\libraries\constrainedDOFs;$(SolutionDir)\libraries\performanceCounter;$(SolutionDir)\libraries\listIO;$(SolutionDir)\libraries\matrixIO;$(SolutionDir)\libraries\imageIO;$(SolutionDir)\libraries\getopts;$(SolutionDir)\libraries\configFile;$(SolutionDir)\libraries\minivector;$(SolutionDir)\libraries\basicAlgorithms;$(SolutionDir)\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

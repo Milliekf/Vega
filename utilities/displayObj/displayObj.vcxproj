@@ -80,6 +80,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\libraries\basicAlgorithms;$(SolutionDir)\libraries\camera;$(SolutionDir)\libraries\configFile;$(SolutionDir)\libraries\getopts;$(SolutionDir)\libraries\glslPhong;$(SolutionDir)\libraries\imageIO;$(SolutionDir)\libraries\lighting;$(SolutionDir)\libraries\listIO;$(SolutionDir)\libraries\macros;$(SolutionDir)\libraries\matrixIO;$(SolutionDir)\libraries\mesh;$(SolutionDir)\libraries\objMesh;$(SolutionDir)\libraries\openGLHelper;$(SolutionDir)\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

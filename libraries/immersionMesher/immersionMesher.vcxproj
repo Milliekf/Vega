@@ -70,6 +70,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)\libraries\basicAlgorithms;$(SolutionDir)\libraries\exactArithmetic;$(SolutionDir)\libraries\interpolationCoordinates;$(SolutionDir)\libraries\libiglInterface;$(SolutionDir)\libraries\listIO;$(SolutionDir)\libraries\mesh;$(SolutionDir)\libraries\minivector;$(SolutionDir)\libraries\objMesh;$(SolutionDir)\libraries\performanceCounter;$(SolutionDir)\libraries\sparseMatrix;$(SolutionDir)\libraries\virtualTets;$(SolutionDir)\libraries\volumetricMesh;$(SolutionDir)\libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
