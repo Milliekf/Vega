@@ -2168,7 +2168,7 @@ int main(int argc, char* argv[])
 
   //configFilename = string("D:/GraduationProject/Vega/examples/simpleBridge_vox/simpleBridge_vox.config");
  /* configFilename = string("D:/GraduationProject/Vega/models/newgrass/voxelizegrass/voxelizegrass.config");*/
-  configFilename = string("D:/GraduationProject/Vega/models/8.10/tree.config");
+  configFilename = string("../../models/8.10/tree.config");
   printf("Loading scene configuration from %s.\n", configFilename.c_str());
 
   initConfigurations(); // parse the config file同时输出到cmd
