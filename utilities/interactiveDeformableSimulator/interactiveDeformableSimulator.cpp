@@ -688,30 +688,30 @@ void idleFunction(void)
         explosionCounter.StartCounter();
         break;
       }
-
-	  //if (strcmp(outputFilename, "__none") != 0)
-	  //{
-		 // char s[4096];
-			//  //写入可查看的位移文件
-		 // //sprintf(s, "%s.u.%04d.txt", "P", subTimestepCounter);
-			//  FILE * file = fopen(outputFilename, "a");
-			//  //printf("Saving deformation to %s.\n", s);
-			//  if (!file)
-			//  {
-			//	  printf("Can't open output file: %s.\n", s);
-			//  }
-			//  else
-			//  {
-			//	  sprintf(s, "Position%04d", subTimestepCounter);
-			//	  fprintf(file, "%s \n", s);
-			//	  for (int i = 0; i < 3 * n; i++)
-			//	  {
-			//		  fprintf(file, "%.10lf ", integratorBase->Getq()[i]);
-			//	  }
-			//	  fprintf(file, "\n");
-			//  }
-			//  fclose(file);
-	  //}
+	  //保存位移文件
+	  if (strcmp(outputFilename, "__none") != 0)
+	  {
+		  char s[4096];
+			  //写入可查看的位移文件
+		  //sprintf(s, "%s.u.%04d.txt", "P", subTimestepCounter);
+			  FILE * file = fopen(outputFilename, "a");
+			  //printf("Saving deformation to %s.\n", s);
+			  if (!file)
+			  {
+				  printf("Can't open output file: %s.\n", s);
+			  }
+			  else
+			  {
+				  sprintf(s, "Position%04d", subTimestepCounter);
+				  fprintf(file, "%s \n", s);
+				  for (int i = 0; i < 3 * n; i++)
+				  {
+					  fprintf(file, "%.10lf ", integratorBase->Getq()[i]);
+				  }
+				  fprintf(file, "\n");
+			  }
+			  fclose(file);
+	  }
 
       // update UI performance indicators
 	  /*if (pulledVertex != -1)
@@ -730,10 +730,11 @@ void idleFunction(void)
 
       subTimestepCounter++;
     }
-	/*if (subTimestepCounter > 80)
+	if (subTimestepCounter > 80)
 	{
 		exit(1);
-	}*/
+	}
+	//用于判断文件力的数量
     //timestepCounter++;
 
     totalDynamicsCounter.StopCounter();
