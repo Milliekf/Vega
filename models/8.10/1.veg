@@ -5317,5 +5317,35 @@ CUBIC
 *MATERIAL defaultMaterial
 ENU, 1000, 50000000, 0.45
 
+*MATERIAL stemMaterial
+ORTHOTROPIC_N1, 5000, 1E10, 1E10, 1E10, 0.4
+
+*MATERIAL fibrousMaterial
+ORTHOTROPIC_N1, 5000, 1E8, 2E8, 3E8, 0.4
+
+*SET steam
+*INCLUDE steam_final.txt
+
+*SET fibrous1
+*INCLUDE fibrous_final.txt
+
+*SET fibrous2
+*INCLUDE fibrous_final2.txt
+
+*SET fibrous3
+*INCLUDE fibrous_final3.txt
+
 *REGION
 allElements, defaultMaterial
+
+*REGION
+fibrous1, fibrousMaterial
+
+*REGION
+fibrous2, fibrousMaterial
+
+*REGION
+fibrous3, fibrousMaterial
+
+*REGION
+steam, stemMaterial
