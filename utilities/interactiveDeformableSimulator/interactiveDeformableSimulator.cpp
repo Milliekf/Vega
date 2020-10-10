@@ -567,22 +567,22 @@ void idleFunction(void)
   if ((!lockScene) && (!pauseSimulation) && (singleStepMode <= 1))
   {
     // determine force in case user is pulling on a vertex
-    /*if (g_iLeftMouseButton) 
+    if (g_iLeftMouseButton) 
     {
       if (pulledVertex != -1)
-      {*/
-		 pulledVertex = 3282;
+      {
+		 //pulledVertex = 3282;
 		/* double forceX =99;
 		 double forceY = -49;*/
-      /*double forceX = (g_vMousePos[0] - dragStartX);
-        double forceY = -(g_vMousePos[1] - dragStartY);*/
+        double forceX = (g_vMousePos[0] - dragStartX);
+        double forceY = -(g_vMousePos[1] - dragStartY);
 		constantpulledVertex = pulledVertex;
         double externalForce[3];
 
 		//计算外力
-       /* camera->CameraVector2WorldVector_OrientationOnly3D(
-            forceX, forceY, 0, externalForce);*/
-		camera->setWorldCoorinateSystemForce(500, 0, 0, externalForce);
+        camera->CameraVector2WorldVector_OrientationOnly3D(
+            forceX, forceY, 0, externalForce);
+		/*camera->setWorldCoorinateSystemForce(500, 0, 0, externalForce);*/
 		std::copy(externalForce, externalForce + 3, vForce);
 
         for(int j=0; j<3; j++)
@@ -641,8 +641,8 @@ void idleFunction(void)
             affectedVertices.insert(*iter);
           }
         }
-      /*}
-    }*/
+      }
+    }
 
     // apply any scripted force loads
     if (timestepCounter < numForceLoads)
@@ -730,15 +730,15 @@ void idleFunction(void)
 
       subTimestepCounter++;
     }
-	if (subTimestepCounter > 80)
+	/*if (subTimestepCounter > 80)
 	{
 		exit(1);
-	}
+	}*/
 	//用于判断文件力的数量
     //timestepCounter++;
 
     totalDynamicsCounter.StopCounter();
-    printf("Total dynamics: %G\n", totalDynamicsCounter.GetElapsedTime());
+    //printf("Total dynamics: %G\n", totalDynamicsCounter.GetElapsedTime());
 
     memcpy(u, integratorBase->Getq(), sizeof(double) * 3 * n);
 
@@ -901,7 +901,7 @@ void idleFunction(void)
   double cpuTimePerGraphicsFrame = cpuLoadCounter.GetElapsedTime();
   
   cpuLoad = cpuTimePerGraphicsFrame * fps; 
-  printf("cpuTimePerGraphicsFrame: %lf\n", cpuTimePerGraphicsFrame);
+  //printf("cpuTimePerGraphicsFrame: %lf\n", cpuTimePerGraphicsFrame);
   glutPostRedisplay();
 }
 
